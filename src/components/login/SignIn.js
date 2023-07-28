@@ -11,16 +11,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 const defaultTheme = createTheme();
 function SignIn() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const [config, setConfig] = useState({
+        email: "",
+        password: "",
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:3000/api/auth/login', config);
+            console.log(response);
+        }catch(err){
+            console.log(err);
+        }
     };
 
     const navigate = useNavigate();
@@ -69,6 +77,7 @@ function SignIn() {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
+                                onChange={(e) => setConfig({ ...config, email: e.target.value })}
                             />
                             <TextField
                                 margin="normal"
@@ -79,6 +88,7 @@ function SignIn() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                onChange={(e) => setConfig({ ...config, password: e.target.value })}
                             />
                             <Button
                                 type="submit"

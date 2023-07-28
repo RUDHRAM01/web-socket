@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -11,16 +10,24 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 const defaultTheme = createTheme();
 function SignUp() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const [config, setConfig] = useState({
+        name: "",
+        email: "",
+        password: "",
+    })
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:3000/api/auth/register', config);
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const navigate = useNavigate();
@@ -60,6 +67,17 @@ function SignUp() {
                             Sign Up
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="name"
+                                label="Name"
+                                name="name"
+                                autoComplete="name"
+                                autoFocus
+                                onChange={(e) => setConfig({ ...config, name: e.target.value })}
+                            />
                             <TextField
                                 margin="normal"
                                 required
@@ -68,7 +86,9 @@ function SignUp() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                type="email"
                                 autoFocus
+                                onChange={(e) => setConfig({ ...config, email: e.target.value })}
                             />
                             <TextField
                                 margin="normal"
@@ -79,7 +99,9 @@ function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                onChange={(e) => setConfig({ ...config, password: e.target.value })}
                             />
+                            
                             <Button
                                 type="submit"
                                 fullWidth
