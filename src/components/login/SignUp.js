@@ -16,8 +16,7 @@ import axios from 'axios';
 const defaultTheme = createTheme();
 function SignUp() {
     const [config, setConfig] = useState({
-        name: "",
-        email: "",
+        username: "",
         password: "",
     })
     const handleSubmit = async (e) => {
@@ -71,24 +70,12 @@ function SignUp() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="name"
-                                label="Name"
-                                name="name"
-                                autoComplete="name"
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
                                 autoFocus
-                                onChange={(e) => setConfig({ ...config, name: e.target.value })}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                type="email"
-                                autoFocus
-                                onChange={(e) => setConfig({ ...config, email: e.target.value })}
+                                onChange={(e) => setConfig({ ...config, username: e.target.value })}
                             />
                             <TextField
                                 margin="normal"

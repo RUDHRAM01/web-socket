@@ -17,7 +17,7 @@ import axios from 'axios';
 const defaultTheme = createTheme();
 function SignIn() {
     const [config, setConfig] = useState({
-        email: "",
+        username: "",
         password: "",
     })
 
@@ -72,12 +72,12 @@ function SignIn() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
                                 autoFocus
-                                onChange={(e) => setConfig({ ...config, email: e.target.value })}
+                                onChange={(e) => setConfig({ ...config, username: e.target.value })}
                             />
                             <TextField
                                 margin="normal"
