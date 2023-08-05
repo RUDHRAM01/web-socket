@@ -2,12 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.css";
-import {BrowserRouter} from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import ChatProvider from "./context/Context";
+import ToastAlert from "./components/toast/Error";
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
+
+  <BrowserRouter>
+    <ChatProvider>
       <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+      <ToastAlert />
+    </ChatProvider>
+  </BrowserRouter>
+  ,document.getElementById("root")
 );
