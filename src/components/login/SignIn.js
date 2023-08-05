@@ -13,9 +13,12 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
+
 
 const defaultTheme = createTheme();
 function SignIn() {
+    const navigate = useNavigate();
     const [config, setConfig] = useState({
         username: "",
         password: "",
@@ -24,14 +27,19 @@ function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/api/auth/login', config);
-            console.log(response);
-        }catch(err){
-            console.log(err);
+            const response = await axios.post('http://localhost:3000/api/users/login', config);
+            // Convert the user object to JSON string before storing in localStorage
+            
+            const data = JSON.stringify(response.data);
+            // Store user info in localStorage
+            localStorage.setItem("userInfo", data);
+            toast.success('Login successful');
+            navigate('/chat');
+
+        } catch (err) {
+            toast.error(err?.response?.data);
         }
     };
-
-    const navigate = useNavigate();
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -46,7 +54,7 @@ function SignIn() {
                         backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
