@@ -3,15 +3,17 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
-import ChatProvider from "./context/Context";
 import ToastAlert from "./components/toast/Error";
+import { Provider } from "react-redux";
+import store from "./store";
 ReactDOM.render(
 
   <BrowserRouter>
-    <ChatProvider>
+    <Provider store={store}>
       <App />
-      <ToastAlert />
-    </ChatProvider>
+    </Provider>
+    <ToastAlert />
+
   </BrowserRouter>
-  ,document.getElementById("root")
+  , document.getElementById("root")
 );
