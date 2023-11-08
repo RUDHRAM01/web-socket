@@ -1,18 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Landing from '../components/landing/Landing';
 import Chat from '../components/chat/Chat';
-import SignIn from "../components/login/SignIn"; 
-import SignUp from "../components/login/SignUp";
+import ChatLanding from '../components/chat/ChatLanding';
+
 
 function Home() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/signIn" element={<SignIn />} />
-        <Route path="/signUp" element={<SignUp />} />
+      <Route path="/" element={<ChatLanding />} />
+        <Route path="/:id" element={<Chat />} />
       </Routes>
     </div>
   );
