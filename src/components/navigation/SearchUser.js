@@ -7,6 +7,7 @@ import MyChat from '../chat/allchat/MyChat'
 import { AiOutlineSearch } from "react-icons/ai"
 import EndToEnd from './EndToEnd'
 import '../styles.css'
+import { MdCancel } from "react-icons/md"
 
 function SearchUser() {
     const dispatch = useDispatch()
@@ -19,11 +20,13 @@ function SearchUser() {
             onClose={() => { dispatch(setOpen(false)) }}  
         >
             <div style={{ height: "100vh", backgroundColor: "black", padding: "8px" }} className='Drawer'>
-                <div style={{ display: "flex", gap: "20px", alignItems: "center",backgroundColor:"gray",justifyContent:"center" }}>
+                <div style={{ display: "flex", gap: "20px", alignItems: "center",backgroundColor:"gray",justifyContent:"space-between",padding:"8px" }}>
 
                     <Typography variant="h6" className="gradient-text">
                         Search Contact
                     </Typography>
+                   
+                    <MdCancel style={{fontSize:"30px"}} onClick={()=>dispatch(setOpen(false))}/>
                 </div>
 
                 <div style={{ padding: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
