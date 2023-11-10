@@ -4,7 +4,9 @@ import { setOpen } from '../../reducer/UiSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import "./styles.css"
 import MyChat from '../chat/allchat/MyChat'
-import { AiOutlineSearch,AiOutlineLock } from "react-icons/ai"
+import { AiOutlineSearch } from "react-icons/ai"
+import EndToEnd from './EndToEnd'
+import '../styles.css'
 
 function SearchUser() {
     const dispatch = useDispatch()
@@ -16,8 +18,8 @@ function SearchUser() {
             open={open}
             onClose={() => { dispatch(setOpen(false)) }}  
         >
-            <div style={{ width: "30vw", height: "100vh", backgroundColor: "black", padding: "8px" }}>
-                <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+            <div style={{ height: "100vh", backgroundColor: "black", padding: "8px" }} className='Drawer'>
+                <div style={{ display: "flex", gap: "20px", alignItems: "center",backgroundColor:"gray",justifyContent:"center" }}>
 
                     <Typography variant="h6" className="gradient-text">
                         Search Contact
@@ -31,12 +33,7 @@ function SearchUser() {
                 <div>
                     <MyChat />
                 </div>
-                <div style={{ position: "absolute", bottom: "8px", overflowX: "hidden",display:'flex',gap:"4px",alignItems:"center",justifyContent:"center",width:"96%" }}>
-                    <AiOutlineLock style={{color:"white"}} />
-                    <Typography variant="caption" style={{color:"white"}}>
-                        End to end encryption
-                    </Typography>
-                </div>
+               <EndToEnd />
             </div>
         </Drawer>
     )
