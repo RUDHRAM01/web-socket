@@ -1,0 +1,23 @@
+.chatArea{
+  width: 64%;
+}
+
+.AllChat{
+  width: 30%;
+}
+
+.Drawer{
+  width: 30vw;
+}
+
+@media screen and (max-width: 898px) {
+    .chatArea {
+      width: 100%;
+    }
+    .AllChat{
+      width: 100%;
+    }
+    .Drawer{
+      width: 100%;
+    }
+}
