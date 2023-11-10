@@ -1,8 +1,11 @@
 import React from 'react'
+import searchImg from "../../../assests/search.gif"
 
 function Nochat() {
   return (
-    <div>Nochat</div>
+    <div>
+      <img src={searchImg} alt="img" />
+    </div>
   )
 }
 
