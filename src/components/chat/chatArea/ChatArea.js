@@ -1,11 +1,17 @@
-import { Avatar, Typography, TextField } from '@mui/material'
+import { Avatar, Typography, TextField, Hidden } from '@mui/material'
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import data from "../../../common-data/Common.json"
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
+import '../../styles.css'
+import { BiArrowBack } from "react-icons/bi"
+
+
+
 function ChatArea() {
   const [message, setMessage] = useState("");
+  const navigate = useNavigate()
   const [chats, setChats] = useState([
     {
       mess: "Hello",
@@ -34,15 +40,22 @@ function ChatArea() {
 
 
   return (
-    <div style={{ backgroundColor: "white", border: "1px gray solid", width: "60%", borderRadius: "8px", padding: "16px" }}>
-      <div style={{ display: "flex", gap: "8px", alignItems: "center", color: "grayText", margin: "4px" }}>
-        <Avatar src={data[id]?.imageUrl} alt='name' />
-        <Typography variant="body1">{data[id]?.name}</Typography>
+    <div style={{ backgroundColor: "white", border: "1px gray solid", borderRadius: "8px", padding: "16px" }} className='chatArea'>
+      <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", margin: "4px" }}>
+        <Hidden mdUp>
+          <div>
+            <BiArrowBack onClick={() => navigate("/")} />
+          </div>
+        </Hidden>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <Avatar src={data[id]?.imageUrl} alt='name' />
+          <Typography variant="body1">{data[id]?.name}</Typography>
+        </div>
       </div>
       <hr />
-      
-      
-      <div style={{ height: "70vh", overflowY: "scroll" }}>
+
+
+      <div style={{ height: "76vh", overflowY: "scroll" }}>
         {chats.map((chat, i) => {
           return (
             <MessagesContainer mess={chat.mess} i={i} />
