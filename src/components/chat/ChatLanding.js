@@ -1,6 +1,7 @@
 import React from 'react'
 import AllChat from './allchat/AllChat'
-import Nochat from './chatarea/Nochat'
+import NoChat from './chatarea/Nochat'
+import { Hidden } from '@mui/material'
 
 
 function ChatLanding() {
@@ -8,7 +9,7 @@ function ChatLanding() {
         <div>
             <div className='chatMain' style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
                 <AllChat />
-                <Nochat />
+                <Hidden mdDown> <NoChat /></Hidden>
             </div>
         </div>
     )
