@@ -11,7 +11,7 @@ function Navigation() {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between",padding:"8px" }}>
-        <Button onClick={()=>{dispatch(setOpen(true))}}>
+        <Button onClick={()=>{dispatch(setOpen(true))}} style={{display:"flex",gap:"8px"}}>
           <AiOutlineSearch />
           <Typography variant="overline" style={{ color: "white" }}>Search...</Typography>
         </Button>
