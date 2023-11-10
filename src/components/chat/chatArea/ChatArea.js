@@ -97,7 +97,7 @@ function ChatArea() {
             padding: '0 4px', // Adjust padding as needed
           }}
         >
-          chatValue
+          send a message...
         </label>
         <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} />
       </div>
