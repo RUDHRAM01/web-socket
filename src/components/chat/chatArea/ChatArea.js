@@ -53,8 +53,6 @@ function ChatArea() {
         </div>
       </div>
       <hr />
-
-
       <div style={{ height: "76vh", overflowY: "scroll" }}>
         {chats.map((chat, i) => {
           return (
