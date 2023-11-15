@@ -15,7 +15,7 @@ function CreateAccount() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:4000/api/users/login", config)
+        axios.post("http://localhost:4000/api/users/register", config)
     };
 
 
