@@ -4,10 +4,15 @@ import React, { useState } from 'react';
 import axios from "axios";
 import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { setData, setIsLogin } from "../reducer/userSlice"
+
 
 
 function Login() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [config, setConfig] = useState({
         email: "",
         password: "",
@@ -15,7 +20,23 @@ function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:4000/api/users/login", config)
+        try {
+            const res = axios.post("http://localhost:4000/api/users/login", config);
+            toast.success("Login Success", {
+                position: "top-center",
+                duration: 4000,
+            });
+            dispatch(setData(res?.user));
+            dispatch(setIsLogin(true));
+            navigate("/")
+        } catch (err) {
+            // add toast error
+            toast.error(err.response.data.msg, {
+                position: "top-center",
+                duration: 4000,
+            });
+        }
+
     };
 
 
