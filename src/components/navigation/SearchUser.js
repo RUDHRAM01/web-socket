@@ -8,10 +8,17 @@ import { AiOutlineSearch } from "react-icons/ai"
 import EndToEnd from './EndToEnd'
 import '../styles.css'
 import { MdCancel } from "react-icons/md"
+import axios from 'axios'
 
 function SearchUser() {
     const dispatch = useDispatch()
     const open = useSelector((state) => state.uiStore.open)
+    const [search, setSearch] = React.useState("")
+
+    const searchNow = async () => {
+        const data = await axios.get(`http://localhost:4000/api/users/allusers?search=${search}`)
+        console.log(data); 
+    }
 
     return (
         <Drawer
@@ -30,8 +37,8 @@ function SearchUser() {
                 </div>
 
                 <div style={{ padding: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
-                    <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray" }} />
-                    <input type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
+                    <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray",cursor:"pointer" }} onClick={searchNow}/>
+                    <input onChange={(e)=>setSearch(e.target.value)} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
                 </div>
                 <div>
                     <MyChat />
