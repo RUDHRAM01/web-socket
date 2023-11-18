@@ -18,15 +18,16 @@ function Login() {
         password: "",
     });
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = axios.post("http://localhost:4000/api/users/login", config);
+            const { data } = await axios.post("http://localhost:4000/api/users/login", config);
             toast.success("Login Success", {
                 position: "top-center",
                 duration: 4000,
             });
-            dispatch(setData(res?.user));
+            console.log(data);
+            dispatch(setData(data?.user));
             dispatch(setIsLogin(true));
             navigate("/")
         } catch (err) {
