@@ -4,7 +4,7 @@ const userStore = createSlice({
     name: "userStore",
     initialState: {
         isLogin: false,
-        data : {}
+        data : null
     },
     reducers: {
         setIsLogin: (state, action) => {
@@ -15,6 +15,9 @@ const userStore = createSlice({
         },
     },
 });
+
+console.log("calling");
+
 
 export const { setIsLogin, setData } = userStore.actions;
 
