@@ -1,16 +1,26 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import data from "../../../common-data/Common.json"
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
 import { BiArrowBack } from "react-icons/bi"
+import io from 'socket.io-client';
+
+
+
+const ENDPOINT = 'http://localhost:4000';
+var socket;
 
 
 
 function ChatArea() {
   const [message, setMessage] = useState("");
+ 
+
+
+  const [socketConnected, setSocketConnected]  = useState(false)
   const navigate = useNavigate()
   const [chats, setChats] = useState([
     {
@@ -36,7 +46,13 @@ function ChatArea() {
   })
 
 
-
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", data[id]);
+    socket.on("connection", () => {
+      setSocketConnected(true)
+    });
+  }, [id]);
 
 
   return (
@@ -47,7 +63,7 @@ function ChatArea() {
             <BiArrowBack onClick={() => navigate("/")} />
           </div>
         </Hidden>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px",cursor:"pointer" }}  >
           <Avatar src={data[id]?.imageUrl} alt='name' />
           <Typography variant="body1">{data[id]?.name}</Typography>
         </div>
