@@ -1,9 +1,9 @@
-import React from 'react'
+import React , {useEffect, useState } from 'react'
 import { Drawer, Typography } from '@mui/material'
 import { setOpen } from '../../reducer/UiSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import "./styles.css"
-import MyChat from '../chat/allchat/MyChat'
+import SearchContainer from './SearchContainer'
 import { AiOutlineSearch } from "react-icons/ai"
 import EndToEnd from './EndToEnd'
 import '../styles.css'
@@ -12,12 +12,39 @@ import axios from 'axios'
 
 function SearchUser() {
     const dispatch = useDispatch()
+    const [chatUsers, setChatUsers] = useState([])
     const open = useSelector((state) => state.uiStore.open)
     const [search, setSearch] = React.useState("")
+    const data = useSelector((state) => state.userStore.data)
+    console.log("calling from the search user...", chatUsers);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    'http://localhost:4000/api/users/allusers',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${data?.token}`,
+                        },
+                    }
+                );
+                setChatUsers(response?.data);
+                console.log(response?.data)
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        
+        fetchData();
+    }, [data])
 
     const searchNow = async () => {
-        const data = await axios.get(`http://localhost:4000/api/users/allusers?search=${search}`)
-        console.log(data); 
+        const searchData = await axios.get(`http://localhost:4000/api/users/search?search=${search}`, {
+            headers: {
+                Authorization: `Bearer ${data?.token}`,
+            }
+        })
+        setChatUsers(searchData?.data)
     }
 
     return (
@@ -41,7 +68,7 @@ function SearchUser() {
                     <input onChange={(e)=>setSearch(e.target.value)} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
                 </div>
                 <div>
-                    <MyChat />
+                    <SearchContainer data={chatUsers} />
                 </div>
                <EndToEnd />
             </div>
