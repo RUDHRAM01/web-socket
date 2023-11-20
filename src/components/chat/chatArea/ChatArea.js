@@ -1,26 +1,27 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import data from "../../../common-data/Common.json"
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
 import { BiArrowBack } from "react-icons/bi"
 import io from 'socket.io-client';
-
+import { useDispatch, useSelector } from 'react-redux'
+import { createChat } from '../../../api/post/createChat'
+import { setChatData } from '../../../reducer/Slice';
+import { getAllChats } from '../../../api/get/getAllChats'
 
 
 const ENDPOINT = 'http://localhost:4000';
 var socket;
 
-
-
 function ChatArea() {
   const [message, setMessage] = useState("");
- 
+  const dispatch = useDispatch();
+  const [chatUserInfo, setChatUserInfo] = useState([])
 
 
-  const [socketConnected, setSocketConnected]  = useState(false)
+  const [socketConnected, setSocketConnected] = useState(false)
   const navigate = useNavigate()
   const [chats, setChats] = useState([
     {
@@ -47,11 +48,28 @@ function ChatArea() {
 
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", data[id]);
-    socket.on("connection", () => {
-      setSocketConnected(true)
-    });
+    if (id) {
+      socket = io(ENDPOINT);
+      socket.emit("setup", id);
+      socket.on("connection", () => {
+        setSocketConnected(true)
+      });
+    }
+
+    const createChatFun = async () => {
+      if (id === "login") return;
+      const { data } = await createChat({ userId: id });
+      setChatUserInfo(data);
+      console.log("data : ",data);
+      
+      try {
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    createChatFun();
+
   }, [id]);
 
 
@@ -63,9 +81,9 @@ function ChatArea() {
             <BiArrowBack onClick={() => navigate("/")} />
           </div>
         </Hidden>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px",cursor:"pointer" }}  >
-          <Avatar src={data[id]?.imageUrl} alt='name' />
-          <Typography variant="body1">{data[id]?.name}</Typography>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}  >
+          <Avatar src={""} alt='name' />
+          <Typography variant="body1">{chatUserInfo[0]?.users[0]?.name}</Typography>
         </div>
       </div>
       <hr />
