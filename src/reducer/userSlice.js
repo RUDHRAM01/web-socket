@@ -16,7 +16,6 @@ const userStore = createSlice({
     },
 });
 
-console.log("calling");
 
 
 export const { setIsLogin, setData } = userStore.actions;
