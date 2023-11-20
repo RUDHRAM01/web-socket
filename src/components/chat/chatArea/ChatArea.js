@@ -18,9 +18,9 @@ var socket;
 function ChatArea() {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
-  const [chatUserInfo, setChatUserInfo] = useState([])
-
-
+  const [chatUserInfo, setChatUserInfo] = useState({
+    isLoading : true
+  })
   const [socketConnected, setSocketConnected] = useState(false)
   const navigate = useNavigate()
   const [chats, setChats] = useState([
@@ -59,11 +59,11 @@ function ChatArea() {
     const createChatFun = async () => {
       if (id === "login") return;
       const { data } = await createChat({ userId: id });
-      setChatUserInfo(data);
-      console.log("data : ",data);
-      
+      setChatUserInfo(() => ({ isLoading : false, ...data }))
+     
+
       try {
-        
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -72,7 +72,7 @@ function ChatArea() {
 
   }, [id]);
 
-
+  console.log("chatArea calling", chatUserInfo)
   return (
     <div style={{ backgroundColor: "white", border: "1px gray solid", borderRadius: "8px", padding: "16px" }} className='chatArea'>
       <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", margin: "4px" }}>
@@ -83,7 +83,7 @@ function ChatArea() {
         </Hidden>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}  >
           <Avatar src={""} alt='name' />
-          <Typography variant="body1">{chatUserInfo[0]?.users[0]?.name}</Typography>
+          <Typography variant="body1">{chatUserInfo.isLoading ? "" : chatUserInfo?.users[0]?.name}</Typography>
         </div>
       </div>
       <hr />
