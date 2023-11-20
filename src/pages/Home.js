@@ -5,14 +5,18 @@ import ChatLanding from '../components/chat/ChatLanding';
 import { useSelector } from "react-redux";
 import Login from './Login';
 import CreateAccount from './CreateAccount';
+import { useDispatch } from 'react-redux';
+import { setIsLogin } from '../reducer/userSlice';
+
 
 
 
 
 function Home() {
-  const navigate = useNavigate( )
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const login = useSelector((state) => state.userStore.isLogin);
-  console.log(login);
+  
   
   useEffect(() => {
 
@@ -21,7 +25,7 @@ function Home() {
     } else if(!login){
       navigate("/login")
     }
-  }, [login,navigate])
+  }, [login,navigate,dispatch])
 
   return (
     <div>
@@ -29,7 +33,7 @@ function Home() {
         {
           login ? <>
             <Route path="/" element={<ChatLanding />} />
-            <Route path="/:id" element={<Chat />} />
+            <Route path="/chat/:id" element={<Chat />} />
           </> : <>
             <Route path='/login' element={<Login />} />
             <Route path='/create-account' element={<CreateAccount />} />
