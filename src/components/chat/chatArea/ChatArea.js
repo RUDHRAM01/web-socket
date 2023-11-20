@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createChat } from '../../../api/post/createChat'
 import { setChatData } from '../../../reducer/Slice';
 import { getAllChats } from '../../../api/get/getAllChats'
+import toast from 'react-hot-toast';
 
 
 const ENDPOINT = 'http://localhost:4000';
@@ -62,12 +63,20 @@ function ChatArea() {
         const { data } = await createChat({ userId: id });
         setChatUserInfo(() => ({ isLoading: false, ...data }))
       } catch (error) {
-        console.error('Error fetching data:', error);
+        toast.error(error.response.data.msg)
       }
     };
     createChatFun();
-
-  }, [id]);
+    const getAllChatsFun = async () => {
+      try {
+        const { data } = await getAllChats();
+        dispatch(setChatData(data))
+      } catch (error) {
+          toast.error(error.response.data.msg)
+      }
+    };
+    getAllChatsFun();
+  }, [id,dispatch]);
 
   console.log("chatArea calling", chatUserInfo)
   return (
