@@ -19,7 +19,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Profile({ open, setOpen }) {
     const data = useSelector((state) => state.userStore.data)
-    console.log(data);
 
     return (
         <>
