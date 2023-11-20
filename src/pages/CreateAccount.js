@@ -4,18 +4,32 @@ import React, { useState } from 'react';
 import axios from "axios";
 import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 function CreateAccount() {
     const navigate = useNavigate()
     const [config, setConfig] = useState({
+        name : "",
         email: "",
         password: "",
     });
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:4000/api/users/register", config)
+        try {
+            axios.post("http://localhost:4000/api/users/register", config)
+            toast.success("Account Created", {
+                position: "top-center",
+                duration: 4000,
+            });
+            navigate("/login")
+        }catch(err){
+            toast.error(err.response.data.msg, {
+                position: "top-center",
+                duration: 4000,
+            });
+        }
     };
 
 
@@ -25,6 +39,15 @@ function CreateAccount() {
                 <img src={Img} alt="" style={{ height: "80px" }} />
                 <Typography variant="h4" style={{ padding: "16px" }}>Create Account</Typography>
                 <form onSubmit={handleLogin} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', width: '100%', gap: '8px' }}>
+                    <input onChange={(e) => {
+                        setConfig((value) => ({
+                            ...value,
+                            name: e.target.value
+                        }));
+                    }
+                    }
+                        value={config.name}
+                        type="text" placeholder="Name" required style={{ height: '40px', maxWidth: '40vh', width: '90%', padding: "4px", border: "1px solid gray" }} />
                     <input onChange={(e) => {
                         setConfig((value) => ({
                             ...value,
