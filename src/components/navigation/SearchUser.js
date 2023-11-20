@@ -16,7 +16,7 @@ function SearchUser() {
     const open = useSelector((state) => state.uiStore.open)
     const [search, setSearch] = React.useState("")
     const data = useSelector((state) => state.userStore.data)
-    console.log("calling from the search user...", chatUsers);
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
