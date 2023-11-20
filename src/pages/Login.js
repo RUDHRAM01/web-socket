@@ -21,17 +21,19 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await axios.post("http://localhost:4000/api/users/login", config);
+            const res = await axios.post("http://localhost:4000/api/users/login", config);
             toast.success("Login Success", {
                 position: "top-center",
                 duration: 4000,
             });
-            console.log(data);
-            dispatch(setData(data?.user));
+            console.log(res);
+            
+            var jsonString = JSON.stringify(res?.data?.user);
+            localStorage.setItem("loginInfo", jsonString);
+            dispatch(setData(res?.data?.user));
             dispatch(setIsLogin(true));
             navigate("/")
         } catch (err) {
-            // add toast error
             toast.error(err.response.data.msg, {
                 position: "top-center",
                 duration: 4000,
