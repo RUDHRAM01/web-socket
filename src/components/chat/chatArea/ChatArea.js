@@ -19,7 +19,7 @@ function ChatArea() {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const [chatUserInfo, setChatUserInfo] = useState({
-    isLoading : true
+    isLoading: true
   })
   const [socketConnected, setSocketConnected] = useState(false)
   const navigate = useNavigate()
@@ -58,12 +58,9 @@ function ChatArea() {
 
     const createChatFun = async () => {
       if (id === "login") return;
-      const { data } = await createChat({ userId: id });
-      setChatUserInfo(() => ({ isLoading : false, ...data }))
-     
-
       try {
-
+        const { data } = await createChat({ userId: id });
+        setChatUserInfo(() => ({ isLoading: false, ...data }))
       } catch (error) {
         console.error('Error fetching data:', error);
       }
