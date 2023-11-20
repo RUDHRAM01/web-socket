@@ -1,28 +1,14 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
 import { BiArrowBack } from "react-icons/bi"
-import io from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux'
-import { createChat } from '../../../api/post/createChat'
-import { setChatData } from '../../../reducer/Slice';
-import { getAllChats } from '../../../api/get/getAllChats'
-import toast from 'react-hot-toast';
 
 
-const ENDPOINT = 'http://localhost:4000';
-var socket;
-
-function ChatArea() {
+function ChatArea({ chatUserInfo }) {
   const [message, setMessage] = useState("");
-  const dispatch = useDispatch();
-  const [chatUserInfo, setChatUserInfo] = useState({
-    isLoading: true
-  })
-  const [socketConnected, setSocketConnected] = useState(false)
   const navigate = useNavigate()
   const [chats, setChats] = useState([
     {
@@ -41,44 +27,15 @@ function ChatArea() {
       mess: "I am also fine"
     }
   ]);
-  const { id } = useParams()
+  
   const [size, setSize] = useState({
     t: "16px",
     s: "12px"
   })
 
-
-  useEffect(() => {
-    if (id) {
-      socket = io(ENDPOINT);
-      socket.emit("setup", id);
-      socket.on("connection", () => {
-        setSocketConnected(true)
-      });
-    }
-
-    const createChatFun = async () => {
-      if (id === "login") return;
-      try {
-        const { data } = await createChat({ userId: id });
-        setChatUserInfo(() => ({ isLoading: false, ...data }))
-      } catch (error) {
-        toast.error(error.response.data.msg)
-      }
-    };
-    createChatFun();
-    const getAllChatsFun = async () => {
-      try {
-        const { data } = await getAllChats();
-        dispatch(setChatData(data))
-      } catch (error) {
-          toast.error(error.response.data.msg)
-      }
-    };
-    getAllChatsFun();
-  }, [id,dispatch]);
-
-  console.log("chatArea calling", chatUserInfo)
+  var data = localStorage.getItem('loginInfo');
+  data = JSON.parse(data);
+  const value = chatUserInfo?.users[0]?._id === data?.id ? chatUserInfo?.users[1] : chatUserInfo?.users[0]
   return (
     <div style={{ backgroundColor: "white", border: "1px gray solid", borderRadius: "8px", padding: "16px" }} className='chatArea'>
       <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", margin: "4px" }}>
@@ -88,8 +45,8 @@ function ChatArea() {
           </div>
         </Hidden>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}  >
-          <Avatar src={""} alt='name' />
-          <Typography variant="body1">{chatUserInfo.isLoading ? "" : chatUserInfo?.users[0]?.name}</Typography>
+          <Avatar src={value?.profilePic} alt='name' />
+          <Typography variant="body1">{chatUserInfo.isLoading ? "" : value?.name}</Typography>
         </div>
       </div>
       <hr />
