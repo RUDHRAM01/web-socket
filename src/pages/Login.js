@@ -26,7 +26,6 @@ function Login() {
                 position: "top-center",
                 duration: 4000,
             });
-            console.log(res);
             
             var jsonString = JSON.stringify(res?.data?.user);
             localStorage.setItem("loginInfo", jsonString);
@@ -34,7 +33,7 @@ function Login() {
             dispatch(setIsLogin(true));
             navigate("/")
         } catch (err) {
-            toast.error(err.response.data.msg, {
+            toast.error(err?.response?.data.msg, {
                 position: "top-center",
                 duration: 4000,
             });
