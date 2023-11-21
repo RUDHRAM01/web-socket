@@ -21,7 +21,7 @@ function SingleChat({ props }) {
                         {value?.name}
                     </Typography>
                     <Typography variant="body2" style={{ color: "white" }}>
-                        {value?.latestMessage?.content}
+                        {props?.latestMessage?.content}
                     </Typography>
                 </div>
             </div>
