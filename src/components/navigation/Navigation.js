@@ -7,6 +7,8 @@ import { useDispatch } from 'react-redux'
 
 function Navigation({handleOpen}) {
   const dispatch = useDispatch()
+  var data = localStorage.getItem('loginInfo');
+  data = JSON.parse(data);
   
   return (
     <>
@@ -15,7 +17,7 @@ function Navigation({handleOpen}) {
           <AiOutlineSearch />
           <Typography variant="overline" style={{ color: "white" }}>Search...</Typography>
         </Button>
-        <Avatar style={{cursor:"pointer"}} src='https://th.bing.com/th?id=OIP.jG20xZ4rIJfvN9q5oN2OBwHaEo&w=316&h=197&c=8&rs=1&qlt=30&o=6&dpr=1.3&pid=3.1&rm=2' alt='user' onClick={handleOpen} />
+        <Avatar style={{cursor:"pointer"}} src={data?.profilePic} alt='user' onClick={handleOpen} />
       </div>
     </>
   )
