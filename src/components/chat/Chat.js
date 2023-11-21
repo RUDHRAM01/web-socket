@@ -33,6 +33,7 @@ function Chat() {
             try {
                 let { data } = await createChat({ userId: id });
                 setChatUserInfo(() => ({ isLoading: false, ...data }))
+                socket.emit("join chat", data?._id);
                 data  = await getAllChats()
                 setChat(data?.data)
             } catch (error) {
