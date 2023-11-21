@@ -18,8 +18,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function Profile({ open, setOpen }) {
-    const data = useSelector((state) => state.userStore.data)
-
+    var data = localStorage.getItem('loginInfo');
+    data = JSON.parse(data);
+    console.log(data);
+    
     return (
         <>
             <Dialog
@@ -34,8 +36,8 @@ function Profile({ open, setOpen }) {
                     <DialogTitle style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>{"Profile"}<MdOutlineEdit /></DialogTitle>
                     <DialogContent>
                         <div style={{ display:"flex" ,alignItems:"center",gap:"8px",color: "GrayText",marginBottom:"4px" }}>
-                            <Avatar src={commonData[0].imageUrl} alt='user' />
-                            <Typography variant="h6">{commonData[0].name}</Typography>
+                            <Avatar src={data?.profilePic} alt='user' />
+                            <Typography variant="h6">{data?.name}</Typography>
                         </div>
                         <DialogContentText id="alert-dialog-slide-description" style={{color:"GrayText"}}>
                             Email  : {data?.email}
