@@ -14,7 +14,7 @@ const SingleContainer = ({ props }) => {
   return (
     <button style={{ width: "100%" }} onClick={() => { navigate(`/chat/${props?._id}`); dispatch(setOpen(false))}} key={`${props?._id}`}>
       <div style={{ display: "flex", padding: "10px", alignItems: "center", gap: "8px", backgroundColor: "Gray", margin: "2px", borderRadius: "4px" }}>
-        <Avatar src={props?.imageUrl} alt='img' />
+        <Avatar src={props?.profilePic} alt='img' />
         <div>
           <Typography variant="body1" style={{ color: "pink" }}>
             {props?.name}
