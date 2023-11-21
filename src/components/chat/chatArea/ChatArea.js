@@ -1,40 +1,47 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
 import { BiArrowBack } from "react-icons/bi"
+import { sendMessageApi } from '../../../api/post/sendMessage'
+import { getMessageApi } from '../../../api/get/getAllMessage'
 
 
 function ChatArea({ chatUserInfo }) {
+  var data = localStorage.getItem('loginInfo');
+  data = JSON.parse(data);
   const [message, setMessage] = useState("");
+  const [sending, setSending] = useState(false);
   const navigate = useNavigate()
-  const [chats, setChats] = useState([
-    {
-      mess: "Hello",
-    },
-    {
-      mess: "Hi",
-    },
-    {
-      mess: "How are you?",
-    },
-    {
-      mess: "I am fine, what about you?"
-    },
-    {
-      mess: "I am also fine"
+  const [chats, setChats] = useState([]);
+
+  const sendMessage = async (e) => {
+    if (e.key === 'Enter') {
+      setChats([...chats, { content: message, sender: { _id: data?.id } }])
+      await sendMessageApi({ message: message, chatId: chatUserInfo?._id });
+      setSending(true);
+      setMessage("")
     }
-  ]);
+  }
+  
+  useEffect(() => {
+    if (chatUserInfo?.isLoading) return;
+    const calling = async () => {
+      const { data } = await getMessageApi(chatUserInfo?._id);
+      setChats(data?.messages)
+    }
+    calling();
+  }, [sending, chatUserInfo?.isLoading !== true])
+
   
   const [size, setSize] = useState({
     t: "16px",
     s: "12px"
   })
 
-  var data = localStorage.getItem('loginInfo');
-  data = JSON.parse(data);
+  
   let value;
   if (!chatUserInfo?.isLoading) value = chatUserInfo?.users[0]?._id === data?.id ? chatUserInfo?.users[1] : chatUserInfo?.users[0];
   return (
@@ -52,9 +59,9 @@ function ChatArea({ chatUserInfo }) {
       </div>
       <hr />
       <div style={{ height: "76vh", overflowY: "scroll" }}>
-        {chats.map((chat, i) => {
+        {chats.map((item, i) => {
           return (
-            <MessagesContainer mess={chat.mess} i={i} />
+            <MessagesContainer item={item} key={i} currentUser={data?.id} />
           )
         })}
       </div>
@@ -69,12 +76,7 @@ function ChatArea({ chatUserInfo }) {
           variant="outlined"
           onClick={() => { setSize({ t: "6px", s: "10px" }) }}
           // on enter message send
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') {
-              setChats([...chats, { mess: message }])
-              setMessage("")
-            }
-          }}
+          onKeyPress={(e)=>sendMessage(e)}
           InputProps={{
             style: {
               fontSize: '12px', // You can adjust the font size as needed
