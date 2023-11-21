@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const getRequest =  (path,body) => {
+const getRequest =  (path) => {
     var data = localStorage.getItem('loginInfo');
     data = JSON.parse(data);
     
