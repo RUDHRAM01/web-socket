@@ -19,7 +19,7 @@ function ChatLanding() {
 
     return (
         <div>
-            <div className='chatMain' style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
+            <div className='chatMain' >
                 <AllChat chatData={chatData} />
                 <Hidden mdDown> <NoChat /></Hidden>
             </div>
