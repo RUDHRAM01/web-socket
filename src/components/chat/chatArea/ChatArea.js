@@ -5,51 +5,23 @@ import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
 import { BiArrowBack } from "react-icons/bi"
-import { sendMessageApi } from '../../../api/post/sendMessage'
-import { getMessageApi } from '../../../api/get/getAllMessage'
 
 
-function ChatArea({ chatUserInfo }) {
+
+function ChatArea(props) {
   var data = localStorage.getItem('loginInfo');
   data = JSON.parse(data);
-  const [message, setMessage] = useState("");
-  const [label, setLabel] = useState("send a message...");
-  const [sending, setSending] = useState(false);
   const navigate = useNavigate()
-  const [chats, setChats] = useState([]);
-
-  const sendMessage = async () => {
-    if (message.length === 0) return;
-    try {
-      setLabel("sending...")
-      setChats([...chats, { content: message, sender: { _id: data?.id } }])
-      await sendMessageApi({ message: message, chatId: chatUserInfo?._id });
-      setLabel("send a message...");
-      setSending(true);
-      setMessage("")
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  useEffect(() => {
-    if (chatUserInfo?.isLoading) return;
-    const calling = async () => {
-      const { data } = await getMessageApi(chatUserInfo?._id);
-      setChats(data?.messages)
-    }
-    calling();
-  }, [sending, chatUserInfo?.isLoading !== true])
-
-
+  
   const [size, setSize] = useState({
     t: "16px",
     s: "12px"
   })
 
 
-  let value;
-  if (!chatUserInfo?.isLoading) value = chatUserInfo?.users[0]?._id === data?.id ? chatUserInfo?.users[1] : chatUserInfo?.users[0];
+  let value;  
+ 
+  if (!props?.chatUserInfo?.isLoading) value = props?.chatUserInfo?.users[0]?._id === data?.id ? props?.chatUserInfo?.users[1] : props?.chatUserInfo?.users[0];
   return (
     <div style={{ backgroundColor: "white", }} className='chatArea'>
       <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", padding: "4px" }} className='chatAreaOne'>
@@ -60,12 +32,12 @@ function ChatArea({ chatUserInfo }) {
         </Hidden>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}  >
           <Avatar src={value?.profilePic} alt='name' />
-          <Typography variant="body1">{chatUserInfo.isLoading ? "" : value?.name}</Typography>
+          <Typography variant="body1">{props?.chatUserInfo.isLoading ? "" : value?.name}</Typography>
         </div>
       </div>
       <hr />
       <div style={{ overflowY: "scroll" }} className='chatAreaTwo'>
-        {chats.map((item, i) => {
+        {props?.chats.map((item, i) => {
           return (
             <MessagesContainer item={item} key={i} currentUser={data?.id} />
           )
@@ -76,15 +48,15 @@ function ChatArea({ chatUserInfo }) {
         <TextField
           id="chatValue"
           label=""
-          value={message}
-          onChange={(e) => { setMessage(e.target.value); if (e.target.value.length > 0) setSize({ t: "8px", s: "10px" }); else setSize({ t: "16px", s: "12px" }) }}
+          value={props?.message}
+          onChange={(e) => { props?.setMessage(e.target.value); if (e.target.value.length > 0) setSize({ t: "8px", s: "10px" }); else setSize({ t: "16px", s: "12px" }) }}
           fullWidth
           variant="outlined"
           onClick={() => { setSize({ t: "8px", s: "10px" }) }}
           // on enter message send
           onKeyPress={(e) => {
             if (e.key === 'Enter')
-              sendMessage();
+            props?.sendMessage();
           }}
           InputProps={{
             style: {
@@ -104,9 +76,9 @@ function ChatArea({ chatUserInfo }) {
             padding: '0 4px', // Adjust padding as needed
           }}
         >
-          {label}
+          {props?.label}
         </label>
-        <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => sendMessage()} />
+        <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => props?.sendMessage()} />
       </div>
     </div>
   )
