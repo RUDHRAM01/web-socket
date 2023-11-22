@@ -45,8 +45,8 @@ function ChatArea({ chatUserInfo }) {
   let value;
   if (!chatUserInfo?.isLoading) value = chatUserInfo?.users[0]?._id === data?.id ? chatUserInfo?.users[1] : chatUserInfo?.users[0];
   return (
-    <div style={{ backgroundColor: "white", border: "1px gray solid", borderRadius: "8px", padding: "16px" }} className='chatArea'>
-      <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", margin: "4px" }}>
+    <div style={{ backgroundColor: "white",}} className='chatArea'>
+      <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText",padding:"4px" }} className='chatAreaOne'>
         <Hidden mdUp>
           <div>
             <BiArrowBack onClick={() => navigate("/")} />
@@ -58,7 +58,7 @@ function ChatArea({ chatUserInfo }) {
         </div>
       </div>
       <hr />
-      <div style={{ height: "76vh", overflowY: "scroll" }}>
+      <div style={{  overflowY: "scroll" }} className='chatAreaTwo'>
         {chats.map((item, i) => {
           return (
             <MessagesContainer item={item} key={i} currentUser={data?.id} />
@@ -66,7 +66,7 @@ function ChatArea({ chatUserInfo }) {
         })}
       </div>
 
-      <div style={{ position: 'relative', top: "6px", display: "flex", gap: "8px", alignItems: "center" }}>
+      <div style={{ position: 'relative', display: "flex", gap: "8px", alignItems: "center",padding:"8px" }} className='chatAreaThree'>
         <TextField
           id="chatValue"
           label=""
