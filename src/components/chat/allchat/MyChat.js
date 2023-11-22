@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 function MyChat({ data }) {
   
   return (
-      <div>
+      <div style={{display:"flex",flexDirection:"column",height:"80%",backgroundColor:"gray"}}>
           {data.length > 0 ? data.map((item) => <SingleChat props={item} key={item?._id}/>) : <Typography variant="subtitle2" style={{color:"white"}}>No Chat</Typography> }
     </div>
   )
