@@ -1,23 +1,56 @@
 .chatArea{
   width: 64%;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid gray;
+  height: 94vh;
 }
 
+.chatAreaOne,.chatAreaThree{
+  height: 8vh;
+}
+.chatAreaTwo{
+  height: 74vh;
+}
 .AllChat{
   width: 30%;
+  height: 94vh;
 }
 
 .Drawer{
   width: 30vw;
 }
 
+.chatMain{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-radius: 4px;
+}
+
 @media screen and (max-width: 898px) {
     .chatArea {
       width: 100%;
+      padding: 0px;
+      border-radius: 0%;
+      height: 100vh;
     }
     .AllChat{
       width: 100%;
+      height: 100vh;
+      border-radius: 0%;
+    }
+    .chatAreaOne,.chatAreaThree{
+      height: 10vh;
+    }
+    .chatAreaTwo{
+      height: 80vh;
     }
     .Drawer{
       width: 100%;
+    }
+    .chatMain{
+      padding: 0px;
+      border: none;
     }
 }
