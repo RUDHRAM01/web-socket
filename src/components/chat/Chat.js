@@ -47,7 +47,7 @@ function Chat() {
     console.log(chatUserInfo,"chatuserinfo")
     return (
         <div>
-            <div className='chatMain' style={{ display: "flex", justifyContent: "space-between", padding: "20px", backgroundColor: "black", height: "100vh" }}>
+            <div className='chatMain' >
                 <Hidden mdDown><AllChat chatData={chatData} /></Hidden>
                 <ChatArea chatUserInfo={chatUserInfo} />
             </div>
