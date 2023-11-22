@@ -1,10 +1,10 @@
 import React from 'react'
-import searchImg from "../../../assests/search.gif"
+import Logo from '../../../assests/logo.png'
 
 function Nochat() {
   return (
-    <div>
-      <img src={searchImg} alt="img" />
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+      <img src={Logo} alt="img" />
     </div>
   )
 }
