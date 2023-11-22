@@ -16,8 +16,8 @@ function AllChat({chatData}) {
 
 
   return (
-    <div style={{ height: "94vh", backgroundColor: "black", borderRadius: "4px", padding: "8px", border: "1px solid gray" }} className='AllChat'>
-      <Title title={`Let's chat`} size={'60px'} color={"white"} />
+    <div style={{  backgroundColor: "black", padding: "8px", border: "1px solid gray" }} className='AllChat'>
+      {/* <Title title={`Let's chat`} size={'60px'} color={"white"} /> */}
       <Profile open={open} setOpen={setOpen} />
       <hr style={{ color: "white" }} />
       <Navigation handleOpen={handleOpen} />
