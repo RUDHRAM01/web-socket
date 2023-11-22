@@ -6,9 +6,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
-import commonData from '../../common-data/Common.json'
+// import commonData from '../../common-data/Common.json'
 import Typography from '@mui/material/Typography'
 import { MdOutlineEdit } from "react-icons/md";
 

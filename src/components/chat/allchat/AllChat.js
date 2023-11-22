@@ -1,6 +1,6 @@
 import React, {  useState } from 'react'
 import Navigation from '../../navigation/Navigation'
-import Title from '../../common/Title'
+// import Title from '../../common/Title'
 import MyChat from './MyChat'
 import SearchUser from '../../navigation/SearchUser'
 import Profile from '../../navigation/Profile'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, Button, Typography } from '@mui/material'
+import { Avatar } from '@mui/material'
 import { AiOutlineSearch } from "react-icons/ai"
 import { setOpen } from '../../reducer/UiSlice'
 import { useDispatch } from 'react-redux'
