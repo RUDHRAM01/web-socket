@@ -13,19 +13,25 @@ function ChatArea({ chatUserInfo }) {
   var data = localStorage.getItem('loginInfo');
   data = JSON.parse(data);
   const [message, setMessage] = useState("");
+  const [label, setLabel] = useState("send a message...");
   const [sending, setSending] = useState(false);
   const navigate = useNavigate()
   const [chats, setChats] = useState([]);
 
-  const sendMessage = async (e) => {
-    if (e.key === 'Enter') {
+  const sendMessage = async () => {
+    if (message.length === 0) return;
+    try {
+      setLabel("sending...")
       setChats([...chats, { content: message, sender: { _id: data?.id } }])
       await sendMessageApi({ message: message, chatId: chatUserInfo?._id });
+      setLabel("send a message...");
       setSending(true);
       setMessage("")
+    } catch (error) {
+      console.log(error);
     }
   }
-  
+
   useEffect(() => {
     if (chatUserInfo?.isLoading) return;
     const calling = async () => {
@@ -35,18 +41,18 @@ function ChatArea({ chatUserInfo }) {
     calling();
   }, [sending, chatUserInfo?.isLoading !== true])
 
-  
+
   const [size, setSize] = useState({
     t: "16px",
     s: "12px"
   })
 
-  
+
   let value;
   if (!chatUserInfo?.isLoading) value = chatUserInfo?.users[0]?._id === data?.id ? chatUserInfo?.users[1] : chatUserInfo?.users[0];
   return (
-    <div style={{ backgroundColor: "white",}} className='chatArea'>
-      <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText",padding:"4px" }} className='chatAreaOne'>
+    <div style={{ backgroundColor: "white", }} className='chatArea'>
+      <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", padding: "4px" }} className='chatAreaOne'>
         <Hidden mdUp>
           <div>
             <BiArrowBack onClick={() => navigate("/")} />
@@ -58,7 +64,7 @@ function ChatArea({ chatUserInfo }) {
         </div>
       </div>
       <hr />
-      <div style={{  overflowY: "scroll" }} className='chatAreaTwo'>
+      <div style={{ overflowY: "scroll" }} className='chatAreaTwo'>
         {chats.map((item, i) => {
           return (
             <MessagesContainer item={item} key={i} currentUser={data?.id} />
@@ -66,17 +72,20 @@ function ChatArea({ chatUserInfo }) {
         })}
       </div>
 
-      <div style={{ position: 'relative', display: "flex", gap: "8px", alignItems: "center",padding:"8px" }} className='chatAreaThree'>
+      <div style={{ position: 'relative', display: "flex", gap: "8px", alignItems: "center", padding: "8px" }} className='chatAreaThree'>
         <TextField
           id="chatValue"
           label=""
           value={message}
-          onChange={(e) => { setMessage(e.target.value); if (e.target.value.length > 0) setSize({ t: "6px", s: "10px" }); else setSize({ t: "16px", s: "12px" }) }}
+          onChange={(e) => { setMessage(e.target.value); if (e.target.value.length > 0) setSize({ t: "8px", s: "10px" }); else setSize({ t: "16px", s: "12px" }) }}
           fullWidth
           variant="outlined"
-          onClick={() => { setSize({ t: "6px", s: "10px" }) }}
+          onClick={() => { setSize({ t: "8px", s: "10px" }) }}
           // on enter message send
-          onKeyPress={(e)=>sendMessage(e)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter')
+              sendMessage();
+          }}
           InputProps={{
             style: {
               fontSize: '12px', // You can adjust the font size as needed
@@ -95,9 +104,9 @@ function ChatArea({ chatUserInfo }) {
             padding: '0 4px', // Adjust padding as needed
           }}
         >
-          send a message...
+          {label}
         </label>
-        <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} />
+        <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => sendMessage()} />
       </div>
     </div>
   )
