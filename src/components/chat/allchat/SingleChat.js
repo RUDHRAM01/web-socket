@@ -14,10 +14,10 @@ function SingleChat({ props }) {
     
     return (
         <button style={{ width: "100%" }} onClick={() => { navigate(`/chat/${value?._id}`); dispatch(setOpen(false))}} key={`${value?._id}`}>
-            <div style={{ display: "flex", padding: "10px", alignItems: "center", gap: "8px", backgroundColor: "Gray", margin: "2px", borderRadius: "4px" }}>
+            <div style={{ display: "flex", padding: "10px", alignItems: "center", gap: "8px", backgroundColor:"GrayText", margin: "2px", borderRadius: "4px" }}>
                 <Avatar src={value?.profilePic} alt='img' />
-                <div>
-                    <Typography variant="body1" style={{ color: "pink" }}>
+                <div style={{display:"flex",flexDirection:"column",width:"100%",alignItems:"flex-start"}}>
+                    <Typography variant="body1" style={{ color: "orange" }}>
                         {value?.name}
                     </Typography>
                     <Typography variant="body2" style={{ color: "white" }}>
