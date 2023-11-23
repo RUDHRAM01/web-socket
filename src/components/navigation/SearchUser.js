@@ -1,4 +1,4 @@
-import React , {useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Drawer, Typography } from '@mui/material'
 import { setOpen } from '../../reducer/UiSlice'
 import { useSelector, useDispatch } from 'react-redux'
@@ -15,8 +15,8 @@ function SearchUser() {
     const [chatUsers, setChatUsers] = useState([])
     const open = useSelector((state) => state.uiStore.open)
     const [search, setSearch] = React.useState("")
-    const data = useSelector((state) => state.userStore.data)
-    
+    var data = localStorage.getItem('loginInfo');
+    data = JSON.parse(data);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -34,9 +34,9 @@ function SearchUser() {
                 console.error('Error fetching data:', error);
             }
         };
-        
+
         fetchData();
-    }, [data])
+    }, [data?.token])
 
     const searchNow = async () => {
         const searchData = await axios.get(`http://localhost:4000/api/users/search?search=${search}`, {
@@ -51,26 +51,26 @@ function SearchUser() {
         <Drawer
             anchor="left"
             open={open}
-            onClose={() => { dispatch(setOpen(false)) }}  
+            onClose={() => { dispatch(setOpen(false)) }}
         >
-            <div style={{ height: "100vh", backgroundColor: "black", padding: "8px" }} className='Drawer'>
-                <div style={{ display: "flex", gap: "20px", alignItems: "center",backgroundColor:"gray",justifyContent:"space-between",padding:"8px" }}>
+            <div style={{ height: "100vh", padding: "8px", overflow: "scroll" }} className='Drawer'>
+                <div style={{ display: "flex", gap: "20px", alignItems: "center", backgroundColor: "white", justifyContent: "space-between", padding: "8px" }}>
 
-                    <Typography variant="h6" className="gradient-text">
+                    <Typography variant="h6" style={{color:"#3498db"}} >
                         Search Contact
                     </Typography>
-                   
-                    <MdCancel style={{fontSize:"30px"}} onClick={()=>dispatch(setOpen(false))}/>
+
+                    <MdCancel style={{ fontSize: "30px" }} onClick={() => dispatch(setOpen(false))} />
                 </div>
 
                 <div style={{ padding: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
-                    <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray",cursor:"pointer" }} onClick={searchNow}/>
-                    <input onChange={(e)=>setSearch(e.target.value)} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
+                    <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray", cursor: "pointer" }} onClick={searchNow} />
+                    <input onChange={(e) => setSearch(e.target.value)} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
                 </div>
                 <div>
                     <SearchContainer data={chatUsers} />
                 </div>
-               <EndToEnd />
+                
             </div>
         </Drawer>
     )
