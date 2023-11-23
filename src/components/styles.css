@@ -6,6 +6,21 @@
   height: 94vh;
 }
 
+body {
+  background: linear-gradient(to bottom, #edf3f8, #ffffff);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+html{
+  overflow: hidden;
+
+}
+.chatUserCard{
+  background-color: white;
+  border-radius: 8px;
+}
+
 .chatAreaOne,.chatAreaThree{
   height: 8vh;
 }
@@ -19,6 +34,25 @@
 
 .Drawer{
   width: 30vw;
+  background: linear-gradient(to bottom, #ffffff, #b0bfc9);
+}
+.loading{
+  background-color: rgba(255, 255, 255, 0.734);
+}
+
+.Drawer::-webkit-scrollbar {
+  width: 0;  
+  background: transparent;  
+}
+
+.chatAreaTwo::-webkit-scrollbar {
+  width: 0;  
+  background: transparent;  
+}
+
+.myChatContainer::-webkit-scrollbar {
+  width: 0;  
+  background: transparent;  
 }
 
 .chatMain{
@@ -27,6 +61,62 @@
   padding: 20px;
   border-radius: 4px;
 }
+
+.start{
+  background: linear-gradient(to bottom, #3498db, #b0bfc9);
+  color: white;
+  border-radius: 0px 4px 4px 4px;
+  box-shadow: 0px 0px 4px 0px rgba(128, 128, 128, 0.316);
+}
+
+.end{
+  background: rgb(255, 255, 255);
+  color: black;
+  border-radius: 4px 4px 0px 4px;
+  box-shadow: 0px 0px 4px 0px rgba(128, 128, 128, 0.316);
+
+}
+
+/* pop up */
+.copy-to-clipboard-container {
+  position: relative;
+}
+
+.copy-button {
+  background-color: white;
+  padding: 8px;
+  box-shadow: 0px 0px 2px 0px gray;
+  border: 1px solid gray;
+  border-radius: 50%;
+}
+
+.popup {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  top: 10px;
+  right: 10px;
+  background-color: #ffffff; /* Green background color */
+  color: gray;
+  border-radius: 5px;
+  padding: 10px;
+  animation: slide-in 0.4s ease-out; /* Animation for sliding in */
+  border : 1px solid gray;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* pop up end */
 
 @media screen and (max-width: 898px) {
     .chatArea {
