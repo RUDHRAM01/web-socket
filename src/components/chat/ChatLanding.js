@@ -3,20 +3,39 @@ import AllChat from './allchat/AllChat'
 import NoChat from './chatarea/Nochat'
 import { Hidden } from '@mui/material'
 import { getAllChats } from '../../api/get/getAllChats'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setChatData, addMessage } from '../../reducer/Slice'
+import { getMessageApi } from '../../api/get/getAllMessage'
+
+
 
 function ChatLanding() {
+    const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
-    const [chatData, setChat] = useState([])
+    const allChats = useSelector((state) => state.chatStore.allChats);
+
+    
     useEffect(() => {
+        if (allChats.length > 0) return;
         const calling = async () => {
             const { data } = await getAllChats()
             setChat(data)
+            dispatch(setChatData(data))
+            data.forEach(element => {
+                const { _id } = element;
+                Promise.resolve(getMessageApi( _id )).then((res) => {
+                    dispatch(addMessage({ messages: res?.data?.messages, _id }));
+                })
+            });
         }
         calling()
-    }, [dispatch])
+    }, [dispatch,allChats.length])
+    
+    useEffect(() => {
+        setChat(allChats)
+    }, [allChats])
 
-
+    console.log("jhjhgkgkghk")
     return (
         <div>
             <div className='chatMain' >
