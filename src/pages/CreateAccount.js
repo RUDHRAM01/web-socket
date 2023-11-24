@@ -15,10 +15,10 @@ function CreateAccount() {
         password: "",
     });
 
-    const handleLogin = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            axios.post("http://localhost:4000/api/users/register", config)
+            await axios.post("http://localhost:4000/api/users/register", config)
             toast.success("Account Created", {
                 position: "top-center",
                 duration: 4000,
@@ -38,7 +38,7 @@ function CreateAccount() {
             <Paper elevation={2} style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", height: "60vh", width: "100%", maxWidth: "500px" }}>
                 <img src={Img} alt="" style={{ height: "80px" }} />
                 <Typography variant="h4" style={{ padding: "16px" }}>Create Account</Typography>
-                <form onSubmit={handleLogin} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', width: '100%', gap: '8px' }}>
+                <form onSubmit={handleRegister} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', width: '100%', gap: '8px' }}>
                     <input onChange={(e) => {
                         setConfig((value) => ({
                             ...value,
