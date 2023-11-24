@@ -4,13 +4,11 @@ import Navigation from '../../navigation/Navigation'
 import MyChat from './MyChat'
 import SearchUser from '../../navigation/SearchUser'
 import Profile from '../../navigation/Profile'
-import { CircularProgress } from '@mui/material'
-
-
 
 function AllChat({ chatData }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+ 
 
   return (
     <div style={{ padding: "8px" }} className='AllChat'>
@@ -18,16 +16,7 @@ function AllChat({ chatData }) {
       <Profile open={open} setOpen={setOpen} />
       <hr style={{ color: "white" }} />
       <Navigation handleOpen={handleOpen} />
-      {chatData?.length > 0 ?
-        <>
-          <MyChat data={chatData} />
-        </> :
-        <>
-          <div style={{ display: "flex", flexDirection: "column", height: "80%", gap: "8px", alignItems: "center", justifyContent: "center" }}>
-            <CircularProgress />
-          </div>
-        </>
-      }
+      <MyChat data={chatData} />
       <SearchUser />
     </div>
 
