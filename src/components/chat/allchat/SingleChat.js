@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Typography from '@mui/material/Typography'
 import { Avatar } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
