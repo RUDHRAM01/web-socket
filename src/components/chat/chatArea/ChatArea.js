@@ -1,6 +1,6 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
 import React, { useState,useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
 import '../../styles.css'
@@ -12,7 +12,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRef } from 'react'
 import ChatProfile from '../../navigation/ChatProfile'
 
+
 function ChatArea(props) {
+  const { id } = useParams();
   const [open, setOpen] = useState(false);
   const currentChatUser = useSelector((state) => state.userStore.currentChatUser);
   const chatContainerRef = useRef(null);
@@ -77,7 +79,7 @@ function ChatArea(props) {
       {props?.allMessages?.map((item, i) => (
         <MessagesContainer item={item} key={i} currentUser={data?.id} />
       ))}
-      {props?.userIsTyping && (
+      {props?.userIsTyping && id === props?.receiveUserTyping && (
         <div style={{ display: "flex", justifyContent: `flex-start` }}>
           <img src={typingImg} alt="" style={{ height: "40px" }} />
         </div>
