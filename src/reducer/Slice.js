@@ -6,8 +6,12 @@ const chatStore = createSlice({
         isCreateGroup: false,
         allChats: [],
         allMessages: [],
+        NoChats : false,
     },
     reducers: {
+        setNoChats: (state, action) => {
+            state.NoChats = action.payload;
+        },
         setIsCreateGroup: (state, action) => {
             state.isCreateGroup = action.payload;
         },
@@ -32,11 +36,14 @@ const chatStore = createSlice({
               state.allMessages.push({ _id: _id, messages: [message] });
             }
         },
-       
-          
+       updateLatestMessage: (state, action) => {
+            const { _id, message } = action.payload;
+            const chatIndex = state.allChats.findIndex((chat) => chat._id === _id);
+            state.allChats[chatIndex].latestMessage = message;
+        },
     },
 });
 
-export const { setIsCreateGroup,setChatData,addMessage,addNewMessage } = chatStore.actions;
+export const { setIsCreateGroup,setChatData,addMessage,addNewMessage,setNoChats,updateLatestMessage } = chatStore.actions;
 
 export default chatStore.reducer;
