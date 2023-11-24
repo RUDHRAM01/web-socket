@@ -13,6 +13,10 @@ import Typography from '@mui/material/Typography'
 import { MdOutlineEdit } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
+import { setChatData } from '../../reducer/Slice';
+import { setCurrentChatUser } from '../../reducer/userSlice';
+import { addMessage } from '../../reducer/Slice';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -21,9 +25,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function Profile({ open, setOpen }) {
+    const dispatch = useDispatch();
     var data = localStorage.getItem('loginInfo');
     data = JSON.parse(data);
     const navigate = useNavigate()
+    const handleLogout = () => {
+        dispatch(setChatData([]));
+        dispatch(setCurrentChatUser({}));
+        dispatch(addMessage([]));
+        localStorage.removeItem('loginInfo');
+        navigate('/login')
+    }
 
     return (
         <>
@@ -47,10 +59,7 @@ function Profile({ open, setOpen }) {
                         </DialogContentText>
                     </DialogContent>
                     <div style={{ display: "flex", justifyContent: "center", gap: "8px", padding: "8px", alignItems: "center" }}>
-                        <button style={{ display: "flex", alignItems: "center", gap: "8px" }} onClick={() => {
-                            navigate("/login");
-                            localStorage.removeItem('loginInfo');
-                        }}>
+                        <button style={{ display: "flex", alignItems: "center", gap: "8px" }} onClick={() => handleLogout()}>
                             <AiOutlineLogout style={{ cursor: "pointer" }} />
                             <Typography variant="h6" style={{ cursor: "pointer" }}>Logout</Typography>
                         </button>
