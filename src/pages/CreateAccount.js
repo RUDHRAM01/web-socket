@@ -14,6 +14,7 @@ function CreateAccount() {
         email: "",
         password: "",
     });
+    
 
     const handleRegister = async (e) => {
         e.preventDefault();
