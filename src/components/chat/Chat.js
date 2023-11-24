@@ -58,10 +58,8 @@ function Chat() {
             socket = io(ENDPOINT);
             socket.emit("setup", data.id);
             socket.on("connected", () => {
-                console.log("connected to socket.io")
                 setSocketIsConnected(true);
             });
-
         }
 
         const createChatFun = async () => {
@@ -84,11 +82,11 @@ function Chat() {
     const [label, setLabel] = useState("send a message...");
 
     const [message, setMessage] = useState("");
+    
 
     const sendMessage = async () => {
         if (message.length === 0) return;
         try {
-            
             socket.emit("stop typing", chatWithUser?._id);
             setLabel("sending...")
             var storeMess = message;
@@ -97,12 +95,12 @@ function Chat() {
             const res = await sendMessageApi({ message: storeMess, chatId: id });
             socket.emit("new message", res?.data?.newMessage);
             setLabel("send a message...");
-
+            
         } catch (error) {
-            console.log(error);
+            toast.error("error while sending message")
         }
     }
-
+    
 
     useEffect(() => {
         const handleNewMessage = (newMessageReceived) => {
@@ -168,7 +166,6 @@ function Chat() {
         setChat(allChats)
     }, [allChats])
 
-    
 
     return (
         <div>
