@@ -17,6 +17,7 @@ const chatStore = createSlice({
         addMessage: (state, action) => {
             state.allMessages = [...state.allMessages, action.payload];
         },
+        
         addNewMessage: (state, action) => {
             let { _id, message } = action.payload;
             
@@ -30,7 +31,8 @@ const chatStore = createSlice({
               // If the chat doesn't exist, add a new chat object with the message
               state.allMessages.push({ _id: _id, messages: [message] });
             }
-        }
+        },
+       
           
     },
 });
