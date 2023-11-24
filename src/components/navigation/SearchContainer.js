@@ -10,13 +10,12 @@ import { setLoading } from '../../reducer/UiSlice'
 
 
 
-
 const SingleContainer = ({ props }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const createChatFun = async () => {
-    dispatch(setLoading(true));
     dispatch(setOpen(false));
+    dispatch(setLoading(true));
     const { data } = await createChat({ userId: props?._id });
     const chats = await getAllChats();
     dispatch(setChatData(chats?.data));
