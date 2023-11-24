@@ -4,7 +4,7 @@ const UiStore = createSlice({
     name: "UiStore",
     initialState: {
         open: false,
-        loading:false
+        loading: false,
     },
     reducers: {
         setOpen(state, action) {
