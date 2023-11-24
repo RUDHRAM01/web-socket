@@ -4,8 +4,10 @@ import NoChat from './chatarea/Nochat'
 import { Hidden } from '@mui/material'
 import { getAllChats } from '../../api/get/getAllChats'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChatData, addMessage } from '../../reducer/Slice'
+import { setChatData, addMessage, setNoChats } from '../../reducer/Slice'
 import { getMessageApi } from '../../api/get/getAllMessage'
+
+
 
 
 
@@ -13,12 +15,17 @@ function ChatLanding() {
     const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
     const allChats = useSelector((state) => state.chatStore.allChats);
-
+    
     
     useEffect(() => {
         if (allChats.length > 0) return;
         const calling = async () => {
             const { data } = await getAllChats()
+            if (data.length === 0) {
+                dispatch(setNoChats(true))
+            } else {
+                dispatch(setNoChats(false))
+            }
             setChat(data)
             dispatch(setChatData(data))
             data.forEach(element => {
@@ -35,7 +42,6 @@ function ChatLanding() {
         setChat(allChats)
     }, [allChats])
 
-    console.log("jhjhgkgkghk")
     return (
         <div>
             <div className='chatMain' >
