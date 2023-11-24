@@ -14,9 +14,8 @@ function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   var data = localStorage.getItem('loginInfo');
-  data = JSON.parse(data);
-
-
+  
+  
 
   useEffect(() => {
 
@@ -24,7 +23,7 @@ function Home() {
       navigate("/create-account")
     } else if (!data) {
       navigate("/login")
-    }
+    } 
   }, [data, navigate, dispatch])
 
   return (
