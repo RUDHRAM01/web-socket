@@ -9,8 +9,9 @@ import { AiOutlineSearch } from "react-icons/ai"
 // import EndToEnd from './EndToEnd'
 import '../styles.css'
 import { MdCancel } from "react-icons/md"
-import axios from 'axios'
 import { debounce } from 'lodash';
+import { GetAllUsersApi } from '../../api/get/getAllUsers'
+import { SearchUserApi } from '../../api/get/Search'
 
 function SearchUser() {
     const dispatch = useDispatch()
@@ -18,8 +19,6 @@ function SearchUser() {
     const [searching, setSearching] = useState(false)
     const open = useSelector((state) => state.uiStore.open)
     const [search, setSearch] = useState("")
-    var data = localStorage.getItem('loginInfo');
-    data = JSON.parse(data);
     const loading = useSelector((state) => state.uiStore.loading)
 
 
@@ -27,14 +26,7 @@ function SearchUser() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    'http://localhost:4000/api/users/allusers',
-                    {
-                        headers: {
-                            Authorization: `Bearer ${data?.token}`,
-                        },
-                    }
-                );
+                const response = await GetAllUsersApi();
                 setChatUsers(response?.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -42,24 +34,17 @@ function SearchUser() {
         };
 
         fetchData();
-    }, [data?.token])
+    }, [])
 
     const searchNow = async (vl) => {
         let value = vl || ''
-        const searchData = await axios.get(`http://localhost:4000/api/users/search?search=${value}`, {
-            headers: {
-                Authorization: `Bearer ${data?.token}`,
-            }
-        })
+        const searchData = await SearchUserApi(value);
         setChatUsers(searchData?.data)
         setSearching(false)
     }
 
     const debouncedFetchData = debounce(searchNow, 1500);
-
-
-
-
+    
     return (
         <>
             {loading && (
