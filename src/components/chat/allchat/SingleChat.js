@@ -13,7 +13,10 @@ function SingleChat({ props }) {
     data = JSON.parse(data);
 
     const chatWithUser = props?.users?.find((user) => user?._id !== data?.id);
-    const message = Decryption(props?.latestMessage?.content, props?.latestMessage?.iv)
+    let message = ""
+    if (props?.latestMessage?.content) {
+        message = Decryption(props?.latestMessage?.content, props?.latestMessage?.iv)
+    }
 
     return (
         <button style={{ width: "100%" }} onClick={() => { navigate(`/chat/${props?._id}`); dispatch(setOpen(false)) }} key={`${props?._id}`}>
