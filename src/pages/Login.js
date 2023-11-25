@@ -1,12 +1,12 @@
 import { Typography, Paper } from '@mui/material';
 import React, { useState } from 'react';
 // import ReCAPTCHA from 'react-google-recaptcha';
-import axios from "axios";
 import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { setData, setIsLogin } from "../reducer/userSlice"
+import { LoginApi } from '../api/post/Login';
 
 
 
@@ -21,7 +21,7 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/api/users/login", config);
+            const res = await LoginApi(config);
             toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
