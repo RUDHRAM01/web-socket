@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Drawer, Typography, CircularProgress } from '@mui/material'
+import Loader from './Loader'
 import { setOpen } from '../../reducer/UiSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import "./styles.css"
@@ -9,15 +10,20 @@ import { AiOutlineSearch } from "react-icons/ai"
 import '../styles.css'
 import { MdCancel } from "react-icons/md"
 import axios from 'axios'
+import { debounce } from 'lodash';
 
 function SearchUser() {
     const dispatch = useDispatch()
     const [chatUsers, setChatUsers] = useState([])
+    const [searching, setSearching] = useState(false)
     const open = useSelector((state) => state.uiStore.open)
-    const [search, setSearch] = React.useState("")
+    const [search, setSearch] = useState("")
     var data = localStorage.getItem('loginInfo');
     data = JSON.parse(data);
     const loading = useSelector((state) => state.uiStore.loading)
+
+
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -38,23 +44,30 @@ function SearchUser() {
         fetchData();
     }, [data?.token])
 
-    const searchNow = async () => {
-        const searchData = await axios.get(`http://localhost:4000/api/users/search?search=${search}`, {
+    const searchNow = async (vl) => {
+        let value = vl || ''
+        const searchData = await axios.get(`http://localhost:4000/api/users/search?search=${value}`, {
             headers: {
                 Authorization: `Bearer ${data?.token}`,
             }
         })
         setChatUsers(searchData?.data)
+        setSearching(false)
     }
-  
+
+    const debouncedFetchData = debounce(searchNow, 1500);
+
+
+
+
     return (
         <>
             {loading && (
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-                <CircularProgress />
-                <p style={{color:"black",fontWeight:"600"}}>Creating a chat for you...</p>
-              </div>
-              
+                    <CircularProgress />
+                    <p style={{ color: "black", fontWeight: "600" }}>Creating a chat for you...</p>
+                </div>
+
             )}
             <Drawer
                 anchor="left"
@@ -71,10 +84,21 @@ function SearchUser() {
 
                     <div style={{ padding: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
                         <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray", cursor: "pointer" }} onClick={searchNow} />
-                        <input onChange={(e) => setSearch(e.target.value)} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
+                        <input onChange={(e) => {
+                            setSearch(e.target.value);
+                            setSearching(true)
+                            debouncedFetchData(e.target.value);
+                        }} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
                     </div>
                     <div>
-                        <SearchContainer data={chatUsers} />
+                        {searching
+                            ?
+                            <>
+                                <Loader />
+                            </>
+                            :
+                            <SearchContainer data={chatUsers} />
+                        }
                     </div>
 
                 </div>

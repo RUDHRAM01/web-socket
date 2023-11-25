@@ -52,7 +52,7 @@ function ChatArea(props) {
       <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", padding: "4px" }} className='chatAreaOne'>
         <Hidden mdUp>
           <div>
-            <BiArrowBack onClick={() => navigate("/")} />
+            <BiArrowBack onClick={() => navigate("/")} style={{cursor:"pointer"}}/>
           </div>
         </Hidden>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer",overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",maxWidth:"50%" }}  >
