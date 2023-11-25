@@ -22,6 +22,7 @@ import AllChat from './allchat/AllChat';
 import '../styles.css';
 import { setNoChats } from '../../reducer/Slice';
 import { updateLatestMessage } from '../../reducer/Slice';
+import { Encryption } from '../Encryption';
 
 
 const ENDPOINT = 'http://localhost:4000';
@@ -33,7 +34,7 @@ const Chat = () => {
   const allChats = useSelector((state) => state.chatStore.allChats);
   const allMessages = useSelector((state) => state.chatStore.allMessages);
   const [receiveUserTyping, setReceiveUserTyping] = useState("");
-
+  console.log(allMessages)
 
 
   const [chatData, setChat] = useState([]);
@@ -95,13 +96,13 @@ const Chat = () => {
     try {
       socket.emit('stop typing', id);
       setLabel('sending...');
-      const storeMess = message;
+      const encrypted = Encryption(message);
       setMessage('');
       dispatch(
-        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: storeMess } })
+        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText,iv : encrypted?.iv } })
       );
-      dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: storeMess } }));
-      const res = await sendMessageApi({ message: storeMess, chatId: id });
+      dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv : encrypted?.iv} }));
+      const res = await sendMessageApi({ message: encrypted?.encryptedText, chatId: id, iv : encrypted?.iv });
       socket.emit('new message', res?.data?.newMessage);
       setLabel('send a message...');
 
@@ -115,10 +116,10 @@ const Chat = () => {
       dispatch(
         addNewMessage({
           _id: newMessageReceived.chat,
-          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content },
+          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv : newMessageReceived?.iv },
         })
       );
-      dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content } }));
+      dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv : newMessageReceived?.iv } }));
     };
 
 
