@@ -4,6 +4,7 @@ import { Avatar } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { setOpen } from '../../../reducer/UiSlice'
 import { useDispatch } from 'react-redux'
+import { Decryption } from '../../Decryption'
 
 function SingleChat({ props }) {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ function SingleChat({ props }) {
     data = JSON.parse(data);
 
     const chatWithUser = props?.users?.find((user) => user?._id !== data?.id);
-
+    const message = Decryption(props?.latestMessage?.content, props?.latestMessage?.iv)
 
     return (
         <button style={{ width: "100%" }} onClick={() => { navigate(`/chat/${props?._id}`); dispatch(setOpen(false)) }} key={`${props?._id}`}>
@@ -23,7 +24,7 @@ function SingleChat({ props }) {
                         {chatWithUser?.name}
                     </Typography>
                     <Typography variant="body2" style={{ color: "#3498db", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",maxWidth:"50%" }}>
-                        {props?.latestMessage?.content}
+                        {message}
                     </Typography>
                 </div>
             </div>
