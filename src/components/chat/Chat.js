@@ -91,12 +91,10 @@ const Chat = () => {
     createChatFun();
   }, [id, chatWithUser?._id, dispatch]);
 
-  const sendMessage = async () => {
-    if (message.length === 0) return;
+  const sendMessage = async encrypted  => {
     try {
       socket.emit('stop typing', id);
       setLabel('sending...');
-      const encrypted = Encryption(message);
       setMessage('');
       dispatch(
         addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText,iv : encrypted?.iv } })
@@ -111,8 +109,19 @@ const Chat = () => {
     }
   };
 
+  const encryption = () => {
+    if(message.length === 0) return;
+    let encrypted = Encryption(message);
+  
+    sendMessage({encryptedText : encrypted?.encryptedText,iv : encrypted?.iv})
+  }
+
+
+
   useEffect(() => {
+    
     const handleNewMessage = async (newMessageReceived) => {
+     console.log(newMessageReceived,"new message received")
       dispatch(
         addNewMessage({
           _id: newMessageReceived.chat,
@@ -184,7 +193,7 @@ const Chat = () => {
         <ChatArea
           allMessages={currentUsersMessages}
           message={message}
-          sendMessage={sendMessage}
+          sendMessage={encryption}
           setMessage={setMessage}
           label={label}
           isTyping={isTyping}
