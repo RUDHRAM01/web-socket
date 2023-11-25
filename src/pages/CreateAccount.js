@@ -1,10 +1,10 @@
 import { Typography, Paper } from '@mui/material';
 import React, { useState } from 'react';
 // import ReCAPTCHA from 'react-google-recaptcha';
-import axios from "axios";
 import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { CreateAccountApi } from '../api/post/CreateAccount';
 
 
 function CreateAccount() {
@@ -19,7 +19,7 @@ function CreateAccount() {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post("http://localhost:4000/api/users/register", config)
+            const res = await CreateAccountApi(config);
             toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
