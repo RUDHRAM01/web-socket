@@ -19,11 +19,11 @@ function CreateAccount() {
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:4000/api/users/register", config)
-            toast.success("Account Created", {
+            const res = await axios.post("http://localhost:4000/api/users/register", config)
+            toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
-            });
+            })
             navigate("/login")
         }catch(err){
             toast.error(err.response.data.msg, {
