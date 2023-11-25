@@ -22,10 +22,10 @@ function Login() {
         e.preventDefault();
         try {
             const res = await axios.post("http://localhost:4000/api/users/login", config);
-            toast.success("Login Success", {
+            toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
-            });
+            })
             
             var jsonString = JSON.stringify(res?.data?.user);
             localStorage.setItem("loginInfo", jsonString);
