@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import AllChat from './allChat/AllChat'
-import NoChat from './chatArea/Nochat'
+import AllChat from './allChatComponent/AllChat'
+import NoChat from './chatAreaComponent/Nochat'
 import { Hidden } from '@mui/material'
 import { getAllChats } from '../../api/get/getAllChats'
 import { useDispatch, useSelector } from 'react-redux'
