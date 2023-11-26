@@ -89,9 +89,12 @@ const Chat = () => {
       }
     };
     createChatFun();
-  }, [id, chatWithUser?._id, dispatch]);
+  }, [id, chatWithUser?._id, dispatch, chatData.length, data.id]);
 
-  const sendMessage = async encrypted  => {
+  const sendMessage = async encrypted => {
+    if (socketIsConnected === false) return;
+    if (message.length === 0) return;
+
     try {
       socket.emit('stop typing', id);
       setLabel('sending...');
@@ -112,7 +115,7 @@ const Chat = () => {
   const encryption = () => {
     if(message.length === 0) return;
     let encrypted = Encryption(message);
-  
+    console.log("ok",encrypted)
     sendMessage({encryptedText : encrypted?.encryptedText,iv : encrypted?.iv})
   }
 

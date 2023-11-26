@@ -20,7 +20,7 @@ function SearchUser() {
     const open = useSelector((state) => state.uiStore.open)
     const [search, setSearch] = useState("")
     const loading = useSelector((state) => state.uiStore.loading)
-
+    console.log(search)
 
 
     useEffect(() => {
