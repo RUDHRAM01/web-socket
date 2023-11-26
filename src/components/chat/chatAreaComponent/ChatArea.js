@@ -120,7 +120,7 @@ function ChatArea(props) {
         >
           {props?.label}
         </label>
-        <button>
+        <button onClick={() => props?.sendMessage()}>
           <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => props?.sendMessage()} />
         </button>
       </div>
