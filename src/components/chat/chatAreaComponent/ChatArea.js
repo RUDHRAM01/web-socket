@@ -86,7 +86,7 @@ function ChatArea(props) {
         )}
       </div>
 
-      <div style={{ position: 'relative', display: "flex", gap: "8px", alignItems: "center", padding: "8px" }} className='chatAreaThree'>
+      <div style={{ position: 'relative', display: "flex", alignItems: "center", padding: "8px" }} className='chatAreaThree'>
         <TextField
           id="chatValue"
           label=""
@@ -120,7 +120,7 @@ function ChatArea(props) {
         >
           {props?.label}
         </label>
-        <button onClick={() => props?.sendMessage()}>
+        <button onClick={() => props?.sendMessage()} style={{zIndex:"9999",padding:"8px"}}>
           <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} />
         </button>
       </div>
