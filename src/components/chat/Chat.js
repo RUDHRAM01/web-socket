@@ -17,8 +17,8 @@ import {
   addMessage,
 } from '../../reducer/Slice';
 import { setCurrentChatUser } from '../../reducer/userSlice';
-import ChatArea from './chatarea/ChatArea';
-import AllChat from './allchat/AllChat';
+import ChatArea from './chatArea/ChatArea';
+import AllChat from './allChat/AllChat';
 import '../styles.css';
 import { setNoChats } from '../../reducer/Slice';
 import { updateLatestMessage } from '../../reducer/Slice';
