@@ -1,17 +1,12 @@
-import crypto from 'crypto-browserify';
-
-const encryptionKey = process.env.REACT_APP_DECRYPTION_KEY;
+const CryptoJS = require("crypto-js");
+const encryptionKey = process.env.REACT_APP_ENCRYPTION_KEY;
 
 const Encryption = (message) => {
-    
-    const iv = crypto.randomBytes(16);
-    const key = crypto.createHash('sha256').update(encryptionKey).digest('base64').substr(0, 32);
-
-    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
-    let encryptedText = cipher.update(message, 'utf-8', 'hex');
-    encryptedText += cipher.final('hex');
-
-    return { encryptedText, iv: iv.toString('hex') };
+    if (!message) return;
+    const iv = CryptoJS.lib.WordArray.random(16);
+    const key = CryptoJS.SHA256(encryptionKey).toString(CryptoJS.enc.Base64).substr(0, 32);
+    const cipher = CryptoJS.AES.encrypt(message, key, { iv: iv }).toString();
+    return { encryptedText: cipher, iv: iv.toString() }
 }
-
+    
 export { Encryption }
