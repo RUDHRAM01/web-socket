@@ -1,5 +1,5 @@
 import { Avatar, Typography, TextField, Hidden } from '@mui/material'
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AiOutlineSend } from "react-icons/ai"
 import MessagesContainer from './MessagesContainer'
@@ -38,7 +38,7 @@ function ChatArea(props) {
 
   const handleCopyToClipboard = () => {
 
-    const linkText = window.location.href; 
+    const linkText = window.location.href;
     navigator.clipboard.writeText(linkText)
       .then(() => {
         setIsCopied(true);
@@ -52,10 +52,10 @@ function ChatArea(props) {
       <div style={{ display: "flex", gap: "12px", alignItems: "center", color: "grayText", padding: "4px" }} className='chatAreaOne'>
         <Hidden mdUp>
           <div>
-            <BiArrowBack onClick={() => navigate("/")} style={{cursor:"pointer"}}/>
+            <BiArrowBack onClick={() => navigate("/")} style={{ cursor: "pointer" }} />
           </div>
         </Hidden>
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer",overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",maxWidth:"50%" }}  >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "50%" }}  >
           <Avatar src={currentChatUser?.profilePic} alt='name' />
           <Typography variant="body1" >{currentChatUser?.name}</Typography>
         </div>
@@ -65,7 +65,7 @@ function ChatArea(props) {
             <FaLink />
           </div>
         </button>
-        <button onClick={()=>setOpen(!open)}>
+        <button onClick={() => setOpen(!open)}>
           <div style={{ backgroundColor: "white", padding: "8px", boxShadow: "0px px 2px 0px gray", border: "1px solid gray", borderRadius: "50%" }}>
             <BsThreeDotsVertical />
             <ChatProfile open={open} setOpen={setOpen} current={currentChatUser} />
@@ -76,15 +76,15 @@ function ChatArea(props) {
 
       <hr />
       <div style={{ overflowY: "scroll" }} className='chatAreaTwo' ref={chatContainerRef}>
-      {props?.allMessages?.map((item, i) => (
-        <MessagesContainer item={item} key={i} currentUser={data?.id} />
-      ))}
-      {props?.userIsTyping && id === props?.receiveUserTyping && (
-        <div style={{ display: "flex", justifyContent: `flex-start` }}>
-          <img src={typingImg} alt="" style={{ height: "40px" }} />
-        </div>
-      )}
-    </div>
+        {props?.allMessages?.map((item, i) => (
+          <MessagesContainer item={item} key={i} currentUser={data?.id} />
+        ))}
+        {props?.userIsTyping && id === props?.receiveUserTyping && (
+          <div style={{ display: "flex", justifyContent: `flex-start` }}>
+            <img src={typingImg} alt="" style={{ height: "40px" }} />
+          </div>
+        )}
+      </div>
 
       <div style={{ position: 'relative', display: "flex", gap: "8px", alignItems: "center", padding: "8px" }} className='chatAreaThree'>
         <TextField
@@ -120,7 +120,9 @@ function ChatArea(props) {
         >
           {props?.label}
         </label>
-        <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => props?.sendMessage()} />
+        <button>
+          <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} onClick={() => props?.sendMessage()} />
+        </button>
       </div>
     </div>
   )
