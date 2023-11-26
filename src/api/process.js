@@ -10,7 +10,7 @@ const getRequest =  (path) => {
         },
     };
 
-    return axios.get(`http://localhost:4000/api/${path}`,config);
+    return axios.get(`${process.env.REACT_APP_MAIN}${path}`,config);
 }
 
 const postRequest =  (path, body) => {
@@ -23,7 +23,7 @@ const postRequest =  (path, body) => {
         },
     };
 
-    return axios.post(`http://localhost:4000/api/${path}`,body, config);
+    return axios.post(`${process.env.REACT_APP_MAIN}${path}`,body, config);
 }
 
 
