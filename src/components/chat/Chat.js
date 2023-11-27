@@ -94,6 +94,8 @@ const Chat = () => {
   const sendMessage = async encrypted => {
     if (socketIsConnected === false) return;
     if (message.length === 0) return;
+    if (encrypted?.encryptedText === undefined) return;
+    if(encrypted?.iv === undefined) return;
 
     try {
       socket.emit('stop typing', id);
