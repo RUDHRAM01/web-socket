@@ -5,27 +5,32 @@ import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { CreateAccountApi } from '../api/post/CreateAccount';
-
+import { CircularProgress } from '@mui/material';
 
 function CreateAccount() {
     const navigate = useNavigate()
     const [config, setConfig] = useState({
-        name : "",
+        name: "",
         email: "",
         password: "",
     });
-    
+    const [loading, setLoading] = useState(false);
+
 
     const handleRegister = async (e) => {
+        if(loading) return;
         e.preventDefault();
         try {
+            setLoading(true);
             const res = await CreateAccountApi(config);
             toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
             })
+            setLoading(false);
             navigate("/login")
-        }catch(err){
+        } catch (err) {
+            setLoading(false);
             toast.error(err?.response?.data.msg, {
                 position: "top-center",
                 duration: 4000,
@@ -69,9 +74,13 @@ function CreateAccount() {
                     {/* Add the ReCAPTCHA component */}
                     {/* <ReCAPTCHA sitekey="YOUR_RECAPTCHA_SITE_KEY" onChange={handleCaptchaChange} /> */}
 
-                    <button type="submit" style={{ height: "40px", backgroundColor: "#2fda24", width: "80%", maxWidth: "30vh", color: "white" }}>Let's Go</button>
+                    <button type="submit" style={{ height: "40px", backgroundColor: "#2fda24", width: "80%", maxWidth: "30vh", color: "white" }}>
+                        {
+                            loading ? <CircularProgress color="inherit" size={20} style={{color:"white"}}/> : "Let's Go"
+                        }
+                    </button>
                 </form>
-                <button style={{padding:"8px"}} onClick={()=>navigate("/login")}>Already have an account?</button>
+                <button style={{ padding: "8px" }} onClick={() => navigate("/login")}>Already have an account?</button>
             </Paper>
         </div>
     );

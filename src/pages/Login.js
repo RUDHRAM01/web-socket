@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { setData, setIsLogin } from "../reducer/userSlice"
 import { LoginApi } from '../api/post/Login';
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -18,21 +19,27 @@ function Login() {
         password: "",
     });
 
+    const [loading, setLoading] = useState(false);
     const handleLogin = async (e) => {
         e.preventDefault();
+        if (loading) return;
         try {
+            setLoading(true);
             const res = await LoginApi(config);
             toast.success(res?.data?.msg, {
                 position: "top-center",
                 duration: 4000,
             })
-            
+
+
             var jsonString = JSON.stringify(res?.data?.user);
             localStorage.setItem("loginInfo", jsonString);
             dispatch(setData(res?.data?.user));
             dispatch(setIsLogin(true));
+            setLoading(false);
             navigate("/")
         } catch (err) {
+            setLoading(false);
             toast.error(err?.response?.data.msg, {
                 position: "top-center",
                 duration: 4000,
@@ -68,9 +75,13 @@ function Login() {
                     {/* Add the ReCAPTCHA component */}
                     {/* <ReCAPTCHA sitekey="YOUR_RECAPTCHA_SITE_KEY" onChange={handleCaptchaChange} /> */}
 
-                    <button type="submit" style={{ height: "40px", backgroundColor: "#2fda24", width: "80%", maxWidth: "30vh", color: "white" }}>Login</button>
+                    <button type="submit" style={{ height: "40px", backgroundColor: "#2fda24", width: "80%", maxWidth: "30vh", color: "white" }}>
+                        {
+                            loading ? <CircularProgress size={20} style={{color:"white"}}/> : "Login"
+                        }
+                    </button>
                 </form>
-                <button style={{padding:"8px"}} onClick={()=>navigate("/create-account")}>Don't have an account?</button>
+                <button style={{ padding: "8px" }} onClick={() => navigate("/create-account")}>Don't have an account?</button>
             </Paper>
         </div>
     );
