@@ -26,7 +26,7 @@ function CreateAccount() {
             })
             navigate("/login")
         }catch(err){
-            toast.error(err.response.data.msg, {
+            toast.error(err?.response?.data.msg, {
                 position: "top-center",
                 duration: 4000,
             });
