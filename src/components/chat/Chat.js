@@ -25,7 +25,7 @@ import { updateLatestMessage } from '../../reducer/Slice';
 import { Encryption } from '../Encryption';
 
 
-const ENDPOINT = 'http://localhost:4000';
+const ENDPOINT = 'https://socket-beie.onrender.com';
 let socket;
 
 const Chat = () => {
