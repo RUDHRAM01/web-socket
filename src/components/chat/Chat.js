@@ -115,7 +115,6 @@ const Chat = () => {
   const encryption = () => {
     if(message.length === 0) return;
     let encrypted = Encryption(message);
-    console.log("ok",encrypted)
     sendMessage({encryptedText : encrypted?.encryptedText,iv : encrypted?.iv})
   }
 
