@@ -34,7 +34,6 @@ const Chat = () => {
   const allChats = useSelector((state) => state.chatStore.allChats);
   const allMessages = useSelector((state) => state.chatStore.allMessages);
   const [receiveUserTyping, setReceiveUserTyping] = useState("");
-  console.log(allMessages)
 
 
   const [chatData, setChat] = useState([]);
@@ -75,6 +74,7 @@ const Chat = () => {
 
     const createChatFun = async () => {
       if (id === 'login') return;
+      if(chatWithUser?._id === undefined) return;
       try {
         const { data } = await createChat({ userId: chatWithUser?._id });
         socket.emit('join chat', data?._id);
