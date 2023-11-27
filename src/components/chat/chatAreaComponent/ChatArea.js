@@ -23,7 +23,7 @@ function ChatArea(props) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [props.allMessages]);
+  }, [props.allMessages,props?.isTyping]);
 
 
   const [isCopied, setIsCopied] = useState(false);
