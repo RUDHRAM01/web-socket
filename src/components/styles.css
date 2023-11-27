@@ -105,6 +105,15 @@ html{
 
 }
 
+.start, .end {
+  transition: transform 0.3s ease; /* Adjust the duration and easing function as needed */
+}
+
+/* Add hover effect for interactive feedback */
+.start:hover, .end:hover {
+  transform: scale(1.05);
+}
+
 /* pop up */
 .copy-to-clipboard-container {
   position: relative;
