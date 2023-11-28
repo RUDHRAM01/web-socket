@@ -23,7 +23,7 @@ function ChatArea(props) {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [props.allMessages,props?.isTyping]);
+  }, [props.allMessages, props?.isTyping]);
 
 
   const [isCopied, setIsCopied] = useState(false);
@@ -46,6 +46,8 @@ function ChatArea(props) {
       })
       .catch((err) => console.error('Unable to copy to clipboard', err));
   };
+
+  
 
   return (
     <div style={{ backgroundColor: "white", }} className='chatArea'>
@@ -120,7 +122,7 @@ function ChatArea(props) {
         >
           {props?.label}
         </label>
-        <button onClick={() => props?.sendMessage()} style={{zIndex:"9999",padding:"8px"}}>
+        <button onClick={() => props?.sendMessage()} style={{ zIndex: "9999", padding: "8px" }}>
           <AiOutlineSend style={{ fontSize: "20px", cursor: "pointer" }} />
         </button>
       </div>
