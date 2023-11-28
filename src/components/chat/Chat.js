@@ -27,6 +27,9 @@ import { Encryption } from '../Encryption';
 
 const ENDPOINT = process.env.REACT_APP_SOCKET;
 let socket;
+let currentDate = new Date();
+let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
+
 
 const Chat = () => {
   const { id } = useParams();
@@ -74,7 +77,7 @@ const Chat = () => {
 
     const createChatFun = async () => {
       if (id === 'login') return;
-      if(chatWithUser?._id === undefined) return;
+      if (chatWithUser?._id === undefined) return;
       try {
         const { data } = await createChat({ userId: chatWithUser?._id });
         socket.emit('join chat', data?._id);
@@ -95,17 +98,17 @@ const Chat = () => {
     if (socketIsConnected === false) return;
     if (message.length === 0) return;
     if (encrypted?.encryptedText === undefined) return;
-    if(encrypted?.iv === undefined) return;
+    if (encrypted?.iv === undefined) return;
 
     try {
       socket.emit('stop typing', id);
       setLabel('sending...');
       setMessage('');
       dispatch(
-        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText,iv : encrypted?.iv } })
+        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv, createdAt : formattedDate } })
       );
-      dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv : encrypted?.iv} }));
-      const res = await sendMessageApi({ message: encrypted?.encryptedText, chatId: id, iv : encrypted?.iv });
+      dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv } }));
+      const res = await sendMessageApi({ message: encrypted?.encryptedText, chatId: id, iv: encrypted?.iv });
       socket.emit('new message', res?.data?.newMessage);
       setLabel('send a message...');
 
@@ -115,24 +118,24 @@ const Chat = () => {
   };
 
   const encryption = () => {
-    if(message.length === 0) return;
+    if (message.length === 0) return;
     let encrypted = Encryption(message);
-    sendMessage({encryptedText : encrypted?.encryptedText,iv : encrypted?.iv})
+    sendMessage({ encryptedText: encrypted?.encryptedText, iv: encrypted?.iv })
   }
 
 
 
   useEffect(() => {
-    
+
     const handleNewMessage = async (newMessageReceived) => {
-     console.log(newMessageReceived,"new message received")
+      console.log(newMessageReceived, "new message received")
       dispatch(
         addNewMessage({
           _id: newMessageReceived.chat,
-          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv : newMessageReceived?.iv },
+          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv,createdAt : formattedDate },
         })
       );
-      dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv : newMessageReceived?.iv } }));
+      dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
     };
 
 
@@ -185,7 +188,7 @@ const Chat = () => {
   }, [dispatch, allChats.length]);
 
 
- 
+
 
   return (
     <div>
