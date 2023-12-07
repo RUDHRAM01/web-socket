@@ -1,1 +1,1 @@
-# [web-socket](https://chat-app-rs.netlify.app/)
+# [Chat-App](https://chat-app-rs.netlify.app/)
