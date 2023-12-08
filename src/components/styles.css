@@ -3,7 +3,7 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid gray;
-  height: 94vh;
+  height: 94dvh;
 }
 
 .noChatFoundContainer{
@@ -50,14 +50,14 @@ html{
 }
 
 .chatAreaOne,.chatAreaThree{
-  height: 8vh;
+  height: 8dvh;
 }
 .chatAreaTwo{
-  height: 74vh;
+  height: 74dvh;
 }
 .AllChat{
   width: 30%;
-  height: 94vh;
+  height: 94dvh;
 }
 
 .Drawer{
@@ -160,18 +160,18 @@ html{
       width: 100%;
       padding: 0px;
       border-radius: 0%;
-      height: 100vh;
+      height: 100dvh;
     }
     .AllChat{
       width: 100%;
-      height: 100vh;
+      height: 100dvh;
       border-radius: 0%;
     }
     .chatAreaOne,.chatAreaThree{
-      height: 10vh;
+      height: 10dvh;
     }
     .chatAreaTwo{
-      height: 80vh;
+      height: 80dvh;
     }
     .Drawer{
       width: 100%;
