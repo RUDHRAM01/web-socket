@@ -139,7 +139,7 @@ const Chat = () => {
     };
 
 
-    socket.on('message received', handleNewMessage);
+    socket?.on('message received', handleNewMessage);
   }, [dispatch, id]);
 
   useEffect(() => {
