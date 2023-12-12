@@ -6,6 +6,9 @@ import Login from './Login';
 import CreateAccount from './CreateAccount';
 import { useDispatch } from 'react-redux';
 import PageNotFound from './PageNotFound';
+import ForgotPassword from './ForgotPassword';
+import UpdatePassword from './UpdatePassword';
+
 
 
 
@@ -14,15 +17,14 @@ function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   var data = localStorage.getItem('loginInfo');
-  
-  
 
-  useEffect(() => {
-
-    if (!data && window.location.pathname === "/create-account") {
-      navigate("/create-account")
-    } else if (!data) {
-      navigate("/login")
+  useEffect(() => { 
+    if(window.location.pathname === "/login") {
+      navigate('/login')
+    }else if(window.location.pathname === "/create-account") {
+      navigate('/create-account')
+    } else if (window.location.pathname === "/forgot-password") {
+      navigate('/forgot-password')
     } 
   }, [data, navigate, dispatch])
 
@@ -37,7 +39,9 @@ function Home() {
           </> : <>
             <Route path='/login' element={<Login />} />
             <Route path='/create-account' element={<CreateAccount />} />
-
+              <Route path='/forgot-password' element={<ForgotPassword />} />
+              <Route path='/updatePassword/:id' element={<UpdatePassword />} />
+              <Route path="/*" element={<PageNotFound />} />
           </>}
       </Routes>
     </div>
