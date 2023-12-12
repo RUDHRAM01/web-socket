@@ -1,5 +1,5 @@
 import { Typography, Paper } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import ReCAPTCHA from 'react-google-recaptcha';
 import Img from "../assests/search.gif"
 import { useNavigate } from 'react-router-dom';
@@ -13,11 +13,21 @@ import { CircularProgress } from '@mui/material';
 
 function Login() {
     const navigate = useNavigate();
+    var data = localStorage.getItem('loginInfo');
+    data = JSON.parse(data);
+    useEffect(() => {
+        console.log(data);
+        if (data) {
+            navigate("/");
+        }
+    }, [data, navigate])
+
     const dispatch = useDispatch();
     const [config, setConfig] = useState({
         email: "",
         password: "",
     });
+
 
     const [loading, setLoading] = useState(false);
     const handleLogin = async (e) => {
@@ -77,11 +87,14 @@ function Login() {
 
                     <button type="submit" style={{ height: "40px", backgroundColor: "#2fda24", width: "80%", maxWidth: "30vh", color: "white" }}>
                         {
-                            loading ? <CircularProgress size={20} style={{color:"white"}}/> : "Login"
+                            loading ? <CircularProgress size={20} style={{ color: "white" }} /> : "Login"
                         }
                     </button>
                 </form>
-                <button style={{ padding: "8px" }} onClick={() => navigate("/create-account")}>Don't have an account?</button>
+                <div style={{display:"flex",gap:"8px",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between"}} className='loginBottom'>
+                    <button style={{ padding: "8px" }} onClick={() => navigate("/forgot-password")}>Forgot Password?</button>
+                    <button style={{ padding: "8px" }} onClick={() => navigate("/create-account")}>Don't have an account?</button>
+                </div>
             </Paper>
         </div>
     );
