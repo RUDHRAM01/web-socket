@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NotFound from "../assests/notFound.png"
 import { useNavigate } from 'react-router-dom'
 
@@ -14,6 +14,12 @@ function PageNotFound() {
             navigate("/login")
        }
     }
+
+    useEffect(() => {
+        if (data) {
+            navigate("/");
+        }
+    }, [data, navigate])
   return (
       <div style={{display:'flex',alignItems:"center",justifyContent:"center",height:"100vh",width:"100%",flexDirection:"column"}}>
           <img src={NotFound} alt="404" style={{ height: "200px", width: "400px", maxWidth: "90%" }} />
