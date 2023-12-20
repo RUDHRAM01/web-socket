@@ -64,7 +64,7 @@ function Profile({ open, setOpen }) {
             toast.success('Image uploaded successfully');
         } catch (err) {
             setLoading(false);
-            toast.error(err?.response?.data?.msg);
+            toast.error("something went wrong! please try after sometime");
         }
     };
 
