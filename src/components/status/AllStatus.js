@@ -214,7 +214,7 @@ function AllStatus(props) {
                                                     <Avatar src={status?.userId?.profilePic} alt="user" style={{ border: "2px solid white" }} />
                                                     <p style={{ fontWeight: "600" }}>{status?.userId?.name}</p>
                                                 </div>
-                                                <div style={{ display: "flex", overflowY: "scroll" }}>
+                                                <div style={{ display: "flex" }}>
                                                     <div className="frameBody" style={{ backgroundColor: data?.color }}>
                                                         <img
                                                             src={status?.imageUrl}
