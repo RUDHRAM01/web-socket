@@ -158,10 +158,10 @@ function AllStatus(props) {
             <div className='statusFrame' ref={containerRef} >
                 {createStatus ? <>
                     <div className='frames' style={{ backgroundColor: statusColor }}>
-                        <div className='frameNav' style={{ display: "flex", gap: "8px", alignItems: "center", width: "100%", padding: "20px", justifyContent: "space-between" }}>
+                        <div className='frameNav' style={{ display: "flex", gap: "8px", alignItems: "center", width: "100%", padding: "20px", justifyContent: "space-between",backgroundColor: "white" }}>
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                                 <Avatar src={loginInfo?.profilePic} alt="user" style={{ border: "2px solid white", backgroundColor: "white" }} />
-                                <p style={{ fontWeight: "600", color: "white" }}>{loginInfo?.name}</p>
+                                <p style={{ fontWeight: "600", color: "black" }}>{loginInfo?.name}</p>
                             </div>
                             <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"8px"}}>
                                 <button onClick={handleChangeColor} style={{ backgroundColor: colorIndex === Colors.length - 1 ? Colors[0].color : Colors[colorIndex + 1].color, height: "40px", width: "40px", borderRadius: "50%", border: "2px solid white", color: "black" }}>i</button>
@@ -209,7 +209,7 @@ function AllStatus(props) {
                                     mappingInd = mappingInd + 1
                                     return (
                                         <>
-                                            <div data-custom={`${status?._id}`} className='frames' style={{ backgroundColor: data?.color }} id={mappingInd}>
+                                            <div data-custom={`${status?._id}`} className='frames' style={{ backgroundColor: status?.color }} id={mappingInd}>
                                                 <div className='frameNav' style={{ display: "flex", gap: "8px", alignItems: "center", width: "100%", padding: "20px", backgroundColor: "white" }}>
                                                     <Avatar src={status?.userId?.profilePic} alt="user" style={{ border: "2px solid white" }} />
                                                     <p style={{ fontWeight: "600" }}>{status?.userId?.name}</p>
