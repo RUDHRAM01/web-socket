@@ -39,32 +39,37 @@ function AllStatus(props) {
         }
     };
 
+    const hashValueRef = useRef(currentHashValue);  // Store hash value in a ref
+
+    useEffect(() => {
+      hashValueRef.current = currentHashValue;  // Update ref when hash value changes
+    }, [currentHashValue]);
     useEffect(() => {
         const calling = () => {
-            let element = document.querySelector(`[data-custom="${id}"]`);
-            var ind = 0;
-            if (element) {
-                setCurrentHashValue(id)
-                ind = element.getAttribute("id")
-            }
-            const container = containerRef.current;
-            container.scrollTop = container?.clientHeight * ind;
+            console.log("calling")
+          const element = document.querySelector(`[data-custom="${hashValueRef.current}"]`);
+                var ind = 0;
+                if (element) {
+                    ind = element.getAttribute("id")
+                }
+                const container = containerRef.current;
+                container.scrollTop = container?.clientHeight * ind;
 
-            if (container) {
-                // Attach the scroll event listener
-                container.addEventListener('scroll', handleScroll);
-                // Clean up the event listener on component unmount
-                return () => {
-                    container.removeEventListener('scroll', handleScroll);
-                };
+                if (container) {
+                    // Attach the scroll event listener
+                    container.addEventListener('scroll', handleScroll);
+                    // Clean up the event listener on component unmount
+                    return () => {
+                        container.removeEventListener('scroll', handleScroll);
+                    };
+                }
             }
-        }
-        setTimeout(() => {
-            calling()
-        }, 2000)
-    }, []);
+        
+    setTimeout(calling, 1000);
+  }, []);
 
     useEffect(() => {
+
         navigate(`/status/${currentHashValue}`)
     }, [currentHashValue, navigate])
 

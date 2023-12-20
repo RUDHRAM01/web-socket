@@ -72,7 +72,7 @@ function Status() {
                 <Hidden mdDown>
                     <AllChat chatData={chatData} />
                 </Hidden>
-                {componentLoading ?  <div className='status' style={{display:"flex",alignItems:"center",justifyContent:"center"}}> <CircularProgress /> </div>
+                {componentLoading ?  <div className='status' style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",color:"white",fontWeight:"600"}}> <CircularProgress /> <p>Fetching data...</p></div>
                  : <AllStatus statusData={statusData} setLoading={setLoading} loading={loading} componentLoading={componentLoading} />
                 }
             </div>
