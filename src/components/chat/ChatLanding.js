@@ -6,6 +6,7 @@ import { getAllChats } from '../../api/get/getAllChats'
 import { useDispatch, useSelector } from 'react-redux'
 import { setChatData, addMessage, setNoChats } from '../../reducer/Slice'
 import { getMessageApi } from '../../api/get/getAllMessage'
+import toast from 'react-hot-toast'
 
 
 
@@ -20,6 +21,7 @@ function ChatLanding() {
     useEffect(() => {
         if (allChats.length > 0) return;
         const calling = async () => {
+            try{
             const { data } = await getAllChats()
             if (data.length === 0) {
                 dispatch(setNoChats(true))
@@ -34,9 +36,13 @@ function ChatLanding() {
                     dispatch(addMessage({ messages: res?.data?.messages, _id }));
                 })
             });
+            } catch (err) {
+                toast.error(err?.response?.data?.msg)
+            }
         }
         calling()
-    }, [dispatch,allChats.length])
+        }, [dispatch, allChats.length])
+    
     
     useEffect(() => {
         setChat(allChats)
