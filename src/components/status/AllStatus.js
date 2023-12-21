@@ -9,7 +9,9 @@ import Colors from "../../common-data/Colors.json"
 import toast from 'react-hot-toast';
 import { CreateStatusApi } from '../../api/post/CreateStatusApi';
 import { MdOutlineClose } from "react-icons/md";
-import {CircularProgress} from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import { formatTime } from '../common/Time';
+
 
 function AllStatus(props) {
     const { id } = useParams();
@@ -212,7 +214,10 @@ function AllStatus(props) {
                                             <div data-custom={`${status?._id}`} className='frames' style={{ backgroundColor: status?.color }} id={mappingInd}>
                                                 <div className='frameNav' style={{ display: "flex", gap: "8px", alignItems: "center", width: "100%", padding: "20px", backgroundColor: "white" }}>
                                                     <Avatar src={status?.userId?.profilePic} alt="user" style={{ border: "2px solid white" }} />
-                                                    <p style={{ fontWeight: "600" }}>{status?.userId?.name}</p>
+                                                    <div>
+                                                        <p style={{ fontWeight: "600" }}>{status?.userId?.name}</p>
+                                                        <p style={{fontSize:"12px",color:"gray",fontWeight:"600"}}>{formatTime(status?.createdAt)}</p>
+                                                    </div>
                                                 </div>
                                                 <div style={{ display: "flex" }}>
                                                     <div className="frameBody" style={{ backgroundColor: data?.color }}>
