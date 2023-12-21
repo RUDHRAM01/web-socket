@@ -2,11 +2,12 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from 'crypto-js';
 import cryptoRandomString from 'crypto-random-string';
-import toast from 'react-hot-toast';
 
 const generateHeaders = () => {
     const data = localStorage.getItem('loginInfo');
-    const to = JSON.parse(data)?.token;
+    let to = JSON.parse(data);
+    to = to?.token;
+
     const requestId = uuidv4();
     const token = cryptoRandomString({
         length: 12,
@@ -29,11 +30,6 @@ const getRequest = (path) => {
     };
 
     return axios.get(`${process.env.REACT_APP_MAIN}${path}`, config)
-        .catch((error) => {
-            // Handle errors here
-            console.error('Error in GET request:', error);
-           toast.error(error?.response?.data?.msg || 'something went wrong' );
-        });
 };
 
 const postRequest = (path, body) => {
@@ -43,10 +39,6 @@ const postRequest = (path, body) => {
     };
 
     return axios.post(`${process.env.REACT_APP_MAIN}${path}`, body, config)
-        .catch((error) => {
-            console.error('Error in POST request:', error);
-            toast.error(error?.response?.data?.msg || 'something went wrong' );
-        });
 };
 
 export { getRequest, postRequest };
