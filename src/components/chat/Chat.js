@@ -123,12 +123,8 @@ const Chat = () => {
     sendMessage({ encryptedText: encrypted?.encryptedText, iv: encrypted?.iv })
   }
 
-
-
   useEffect(() => {
-
     const handleNewMessage = async (newMessageReceived) => {
-      console.log(newMessageReceived, "new message received")
       dispatch(
         addNewMessage({
           _id: newMessageReceived.chat,
@@ -136,6 +132,9 @@ const Chat = () => {
         })
       );
       dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
+      if (window.navigator.vibrate) {
+        navigator.vibrate(30, 20, 20)
+      }
     };
 
 
