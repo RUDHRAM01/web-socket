@@ -9,9 +9,6 @@ import { getMessageApi } from '../../api/get/getAllMessage'
 import toast from 'react-hot-toast'
 
 
-
-
-
 function ChatLanding() {
     const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
