@@ -14,7 +14,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
 import { setChatData } from '../../reducer/Slice';
-import { setCurrentChatUser } from '../../reducer/userSlice';
+import { setCurrentChatUser, setOnlineUsers } from '../../reducer/userSlice';
 import { addMessage } from '../../reducer/Slice';
 import { useDispatch } from 'react-redux';
 import { Button, ButtonBase } from '@mui/material';
@@ -40,6 +40,7 @@ function Profile({ open, setOpen }) {
         dispatch(setChatData([]));
         dispatch(setCurrentChatUser({}));
         dispatch(addMessage([]));
+        dispatch(setOnlineUsers({}));
         localStorage.removeItem('loginInfo');
         navigate('/login')
     }
