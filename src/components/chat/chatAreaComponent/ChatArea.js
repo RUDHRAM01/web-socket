@@ -11,6 +11,38 @@ import { FaLink } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useRef } from 'react'
 import ChatProfile from '../../navigation/ChatProfile'
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
+
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  '& .MuiBadge-badge': {
+      backgroundColor: '#44b700',
+      color: '#44b700',
+      boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+      '&::after': {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: '50%',
+          animation: 'ripple 1.2s infinite ease-in-out',
+          border: '1px solid currentColor',
+          content: '""',
+      },
+  },
+  '@keyframes ripple': {
+      '0%': {
+          transform: 'scale(.8)',
+          opacity: 1,
+      },
+      '100%': {
+          transform: 'scale(2.4)',
+          opacity: 0,
+      },
+  },
+}));
 
 
 function ChatArea(props) {
@@ -18,6 +50,7 @@ function ChatArea(props) {
   const [open, setOpen] = useState(false);
   const currentChatUser = useSelector((state) => state.userStore.currentChatUser);
   const chatContainerRef = useRef(null);
+  const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -47,7 +80,7 @@ function ChatArea(props) {
       .catch((err) => console.error('Unable to copy to clipboard', err));
   };
 
-  
+
 
   return (
     <div style={{ backgroundColor: "white", }} className='chatArea'>
@@ -58,7 +91,16 @@ function ChatArea(props) {
           </div>
         </Hidden>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "50%" }}  >
-          <Avatar src={currentChatUser?.profilePic} alt='name' />
+          {onlineUsers[currentChatUser?._id] ? <StyledBadge
+            overlap="circular"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            variant="dot"
+          >
+            <Avatar src={currentChatUser?.profilePic} alt='name' />
+          </StyledBadge> :
+            <Avatar src={currentChatUser?.profilePic} alt='name' />
+          }
+
           <Typography variant="body1" >{currentChatUser?.name}</Typography>
         </div>
         <div style={{ flexGrow: "1" }}></div>
