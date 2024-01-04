@@ -24,7 +24,7 @@ import { setNoChats } from '../../reducer/Slice';
 import { updateLatestMessage } from '../../reducer/Slice';
 import { Encryption } from '../Encryption';
 import SideBar from './SideBar';
-import { setOnlineUsers } from '../../reducer/userSlice';
+// import { setOnlineUsers } from '../../reducer/userSlice';
 
 
 
@@ -40,7 +40,7 @@ const Chat = () => {
   const allChats = useSelector((state) => state.chatStore.allChats);
   const allMessages = useSelector((state) => state.chatStore.allMessages);
   const [receiveUserTyping, setReceiveUserTyping] = useState("");
-  const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
+  // const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
 
   const [chatData, setChat] = useState([]);
   const [socketIsConnected, setSocketIsConnected] = useState(false);
@@ -72,7 +72,7 @@ const Chat = () => {
   useEffect(() => {
     if (data.id) {
       socket = io(ENDPOINT);
-      socket.emit("public room", data?.id);
+      // socket.emit("public room", data?.id);
       socket.emit('setup', data.id);
       socket.on('connected', () => {
         setSocketIsConnected(true);
@@ -99,25 +99,25 @@ const Chat = () => {
     createChatFun();
   }, [id, chatWithUser?._id, dispatch, chatData.length, data.id]);
 
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-        socket.emit("offline", data?.id);
-     };
-    window.addEventListener('unload', handleBeforeUnload);
-  }, [data?.id]);
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event) => {
+  //       socket.emit("offline", data?.id);
+  //    };
+  //   window.addEventListener('unload', handleBeforeUnload);
+  // }, [data?.id]);
   
-  useEffect(() => {
-    socket.on("connectedToPublic", (id) => {
-      const newOnlineUsers = { ...onlineUsers, [id]: id };
-      dispatch(setOnlineUsers(newOnlineUsers));
-    })
+  // useEffect(() => {
+  //   socket.on("connectedToPublic", (id) => {
+  //     const newOnlineUsers = { ...onlineUsers, [id]: id };
+  //     dispatch(setOnlineUsers(newOnlineUsers));
+  //   })
 
-    socket.on("disconnectedToPublic", (id) => {
-      const newOnlineUsers = { ...onlineUsers };
-      delete newOnlineUsers[id];
-      dispatch(setOnlineUsers(newOnlineUsers));
-    })
-  }, [onlineUsers, dispatch])
+  //   socket.on("disconnectedToPublic", (id) => {
+  //     const newOnlineUsers = { ...onlineUsers };
+  //     delete newOnlineUsers[id];
+  //     dispatch(setOnlineUsers(newOnlineUsers));
+  //   })
+  // }, [onlineUsers, dispatch])
 
 
   const sendMessage = async encrypted => {

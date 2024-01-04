@@ -18,9 +18,8 @@ function SearchUser() {
     const [chatUsers, setChatUsers] = useState([])
     const [searching, setSearching] = useState(false)
     const open = useSelector((state) => state.uiStore.open)
-    const [search, setSearch] = useState("")
+    // const [search, setSearch] = useState("")
     const loading = useSelector((state) => state.uiStore.loading)
-    console.log(search)
 
 
     useEffect(() => {
@@ -70,7 +69,6 @@ function SearchUser() {
                     <div style={{ padding: "8px", display: "flex", gap: "8px", alignItems: "center" }}>
                         <AiOutlineSearch style={{ border: "2px solid gray", height: "40px", width: "34px", borderRadius: "6px 0px 0px 6px", color: "gray", cursor: "pointer" }} onClick={searchNow} />
                         <input onChange={(e) => {
-                            setSearch(e.target.value);
                             setSearching(true)
                             debouncedFetchData(e.target.value);
                         }} type="search" placeholder='search...' style={{ border: "1px solid gray", width: "100%", height: "40px", padding: "4px" }} />
