@@ -9,7 +9,7 @@ import { CircularProgress, Hidden } from '@mui/material';
 import { getStatusApi } from '../../api/get/getStatusApi';
 import { setAllStatus } from '../../reducer/StatusSlice';
 import toast from 'react-hot-toast';
-
+import SideBar from '../chat/SideBar';
 
 
 
@@ -60,7 +60,7 @@ function Status() {
         }
         calling()
     }, [dispatch, setLoading])
-    
+
     useEffect(() => {
         setStatusData(allStatus)
     }, [allStatus])
@@ -68,13 +68,20 @@ function Status() {
 
     return (
         <div>
-            <div className='chatMain' >
+            <div className='chatParentComp'>
                 <Hidden mdDown>
-                    <AllChat chatData={chatData} />
+                    <div >
+                        <SideBar />
+                    </div>
                 </Hidden>
-                {componentLoading ?  <div className='status' style={{display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",color:"white",fontWeight:"600"}}> <CircularProgress /> <p>Fetching data...</p></div>
-                 : <AllStatus statusData={statusData} setLoading={setLoading} loading={loading} componentLoading={componentLoading} />
-                }
+                <div className='chatMain' >
+                    <Hidden mdDown>
+                        <AllChat chatData={chatData} />
+                    </Hidden>
+                    {componentLoading ? <div className='status' style={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", color: "white", fontWeight: "600" }}> <CircularProgress /> <p>Fetching data...</p></div>
+                        : <AllStatus statusData={statusData} setLoading={setLoading} loading={loading} componentLoading={componentLoading} />
+                    }
+                </div>
             </div>
         </div>
     )
