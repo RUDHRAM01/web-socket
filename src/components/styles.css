@@ -54,7 +54,7 @@ html {
   overflow: hidden;
 }
 .chatUserCard {
-  background-color: white;
+  background-color: rgb(0, 0, 0);
   border-radius: 8px;
 }
 
@@ -68,6 +68,7 @@ html {
 .AllChat {
   width: 30%;
   height: 94dvh;
+  background-color: rgba(255, 255, 255, 0.371);
 }
 
 .Drawer {
@@ -93,11 +94,29 @@ html {
   background: transparent;
 }
 
+.chatParentComp{
+  display: flex;
+  padding: 20px;
+}
+.sideBarMain{
+  height: 94dvh;
+  margin-right: 20px;
+}
+
+.baseSideBard{
+  overflow-y: scroll;
+}
+
+.baseSideBard::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
 .chatMain {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
   border-radius: 4px;
+  width: 100%;
 }
 
 .start {
@@ -252,6 +271,9 @@ html {
   .chatMain {
     padding: 0px;
     border: none;
+  }
+  .chatParentComp{
+    padding: 0px;
   }
 }
 
