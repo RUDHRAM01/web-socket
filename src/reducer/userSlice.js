@@ -6,6 +6,7 @@ const userStore = createSlice({
         isLogin: false,
         data: null,
         currentChatUser: {},
+        allUsers : [],
     },
     reducers: {
         setIsLogin: (state, action) => {
@@ -17,12 +18,14 @@ const userStore = createSlice({
         setCurrentChatUser: (state, action) => {
             state.currentChatUser = action.payload;
         },
-        
+        setALLUsers: (state, action) => {
+            state.allUsers = action.payload;
+        },
     },
 });
 
 
 
-export const { setIsLogin, setData, setCurrentChatUser } = userStore.actions;
+export const { setIsLogin, setData, setCurrentChatUser,setALLUsers } = userStore.actions;
 
 export default userStore.reducer;
