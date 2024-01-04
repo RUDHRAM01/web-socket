@@ -26,7 +26,7 @@ function SingleChat({ props }) {
             <div style={{ display: "flex", padding: "10px", alignItems: "center", gap: "8px", margin: "2px" }} className='chatUserCard'>
                 <Avatar src={chatWithUser?.profilePic} alt='img' />
                 <div style={{ display: "flex", flexDirection: "column", width: "100%", alignItems: "flex-start" }}>
-                    <Typography variant="body1" style={{ color: "black", fontSize: "16px", fontWeight: "600",textOverflow: "ellipsis",maxWidth:"85%", whiteSpace: "nowrap",overflow: "hidden" }}>
+                    <Typography variant="body1" style={{ color: "white", fontSize: "16px", fontWeight: "600",textOverflow: "ellipsis",maxWidth:"85%", whiteSpace: "nowrap",overflow: "hidden" }}>
                         {chatWithUser?.name}
                     </Typography>
                     <Typography variant="body2" style={{ color: "#3498db", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",maxWidth:"50%" }}>
