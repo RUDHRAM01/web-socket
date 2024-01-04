@@ -8,17 +8,44 @@ import { setChatData, addMessage, setNoChats } from '../../reducer/Slice'
 import { getMessageApi } from '../../api/get/getAllMessage'
 import toast from 'react-hot-toast'
 import SideBar from './SideBar'
-import { setALLUsers } from '../../reducer/userSlice'
+import { setALLUsers, setOnlineUsers } from '../../reducer/userSlice'
 import { GetAllUsersApi } from '../../api/get/getAllUsers'
 
+import io from 'socket.io-client';
 
+const ENDPOINT = process.env.REACT_APP_SOCKET;
+let socket;
+socket = io(ENDPOINT);
 
 function ChatLanding() {
     const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
     const allChats = useSelector((state) => state.chatStore.allChats);
+    const data = JSON.parse(localStorage.getItem('loginInfo'));
+    const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
+
+  
+    
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            socket.emit("offline", data?.id);
+         };
+        window.addEventListener('unload', handleBeforeUnload);
+    }, [data?.id]);
 
 
+    useEffect(() => {
+        socket.on("connectedToPublic", (id) => {
+            const newOnlineUsers = { ...onlineUsers, [id]: id };
+            dispatch(setOnlineUsers(newOnlineUsers));
+        })
+
+        socket.on("disconnectedToPublic", (id) => {
+            const newOnlineUsers = { ...onlineUsers };
+            delete newOnlineUsers[id];
+            dispatch(setOnlineUsers(newOnlineUsers));
+        })
+    }, [onlineUsers, dispatch])
 
 
     useEffect(() => {
@@ -53,7 +80,7 @@ function ChatLanding() {
 
 
 
-    
+
     useEffect(() => {
         const calling = async () => {
             try {
