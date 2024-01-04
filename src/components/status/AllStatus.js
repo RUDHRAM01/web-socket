@@ -18,19 +18,20 @@ function AllStatus(props) {
     const navigate = useNavigate();
     const [colorIndex, setColorIndex] = useState(0)
     const [statusColor, setStatusColor] = useState(Colors[colorIndex].color)
-    const [createStatus, setCreateStatus] = useState(false)
+    const [createStatus, setCreateStatus] = useState(true)
     const [currentHashValue, setCurrentHashValue] = useState(id);
 
 
     let mappingInd = -1;
     const containerRef = useRef(null);
 
+
+
     const handleScroll = () => {
         const container = containerRef.current;
         if (container) {
-            // Calculate the index of the snap based on scroll position
             const scrollTop = container?.scrollTop;
-            const snapHeight = container?.clientHeight; // Adjust based on your snap height
+            const snapHeight = container?.clientHeight; 
             const index = Math.floor(scrollTop / snapHeight);
 
             let divElement = document.getElementById(index);
@@ -71,11 +72,14 @@ function AllStatus(props) {
   }, []);
 
     useEffect(() => {
-
+        if (currentHashValue === "createStatus") {
+            return;
+        }
         navigate(`/status/${currentHashValue}`)
     }, [currentHashValue, navigate])
 
     const handleChangeStatus = (ind) => {
+        setCreateStatus(false);
         let value = props?.statusData?.[ind]?.status[0]?._id;
         if (value) {
             let element = document.querySelector(`[data-custom="${value}"]`);
@@ -129,6 +133,14 @@ function AllStatus(props) {
             toast.error(err?.response?.data?.msg);
         }
     }
+    const handleCloseStatus = () => {
+        setCreateStatus(false);
+        if (props?.statusData?.length > 0) {
+            navigate(`/status/${props?.statusData[0]?.status[0]?._id}`)
+        } else {
+            navigate(`/`)
+        }
+    }
 
     return (
         <div className='status'>
@@ -139,7 +151,7 @@ function AllStatus(props) {
                     <IoMdArrowRoundBack onClick={() => navigate("/")} />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
-                    <button onClick={() => { navigate('/status/create'); setCreateStatus(true)}} >
+                    <button onClick={() => { navigate('/status/createStatus'); setCreateStatus(true)}} >
                         <div style={{ color: "white", fontSize: "30px", display: "flex", alignItems: "center", border: "2px solid black", borderRadius: "50%", justifyContent: "center", width: "50px", height: "50px", backgroundColor: "black", cursor: "pointer" }}>
                             <IoIosAddCircleOutline />
                         </div>
@@ -166,8 +178,8 @@ function AllStatus(props) {
                                 <p style={{ fontWeight: "600", color: "black" }}>{loginInfo?.name}</p>
                             </div>
                             <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"8px"}}>
-                                <button onClick={handleChangeColor} style={{ backgroundColor: colorIndex === Colors.length - 1 ? Colors[0].color : Colors[colorIndex + 1].color, height: "40px", width: "40px", borderRadius: "50%", border: "2px solid white", color: "black" }}>i</button>
-                                <button style={{ backgroundColor: colorIndex === Colors.length - 1 ? Colors[0].color : Colors[colorIndex + 1].color, height: "40px", width: "40px", borderRadius: "50%", border: "2px solid white", color: "black",display:"flex",alignItems:"center",justifyContent:"center" }} onClick={() => setCreateStatus(false)}>
+                                <button onClick={handleChangeColor} style={{ backgroundColor: colorIndex === Colors.length - 1 ? Colors[0].color : Colors[colorIndex + 1].color, height: "40px", width: "40px", borderRadius: "50%", border: "2px solid white", color: "yellow" }}>i</button>
+                                <button style={{ backgroundColor: colorIndex === Colors.length - 1 ? Colors[0].color : Colors[colorIndex + 1].color, height: "40px", width: "40px", borderRadius: "50%", border: "2px solid white", color: "yellow",display:"flex",alignItems:"center",justifyContent:"center" }} onClick={() => handleCloseStatus()}>
                                     <MdOutlineClose />
                                 </button>
                            </div>
