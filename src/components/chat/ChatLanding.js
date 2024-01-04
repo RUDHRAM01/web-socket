@@ -24,6 +24,10 @@ function ChatLanding() {
     const data = JSON.parse(localStorage.getItem('loginInfo'));
     const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
 
+    useEffect(() => {
+        socket.emit("public room", data?.id);
+    }, [data?.id]);
+    
   
     
     useEffect(() => {
