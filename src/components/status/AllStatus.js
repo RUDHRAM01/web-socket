@@ -15,11 +15,13 @@ import { formatTime } from '../common/Time';
 
 function AllStatus(props) {
     const { id } = useParams();
+
     const navigate = useNavigate();
     const [colorIndex, setColorIndex] = useState(0)
     const [statusColor, setStatusColor] = useState(Colors[colorIndex].color)
-    const [createStatus, setCreateStatus] = useState(true)
+    const [createStatus, setCreateStatus] = useState(false)
     const [currentHashValue, setCurrentHashValue] = useState(id);
+
 
 
     let mappingInd = -1;
@@ -47,10 +49,11 @@ function AllStatus(props) {
     useEffect(() => {
       hashValueRef.current = currentHashValue;  // Update ref when hash value changes
     }, [currentHashValue]);
+
+
     useEffect(() => {
         const calling = () => {
-            console.log("calling")
-          const element = document.querySelector(`[data-custom="${hashValueRef.current}"]`);
+            const element = document.querySelector(`[data-custom="${hashValueRef.current}"]`);
                 var ind = 0;
                 if (element) {
                     ind = element.getAttribute("id")
@@ -73,9 +76,9 @@ function AllStatus(props) {
 
     useEffect(() => {
         if (currentHashValue === "createStatus") {
-            return;
+            setCreateStatus(true)
         }
-        navigate(`/status/${currentHashValue}`)
+        navigate(`/status/${currentHashValue}`);
     }, [currentHashValue, navigate])
 
     const handleChangeStatus = (ind) => {
@@ -89,6 +92,7 @@ function AllStatus(props) {
             }
             const container = containerRef.current;
             container.scrollTop = container?.clientHeight * idd;
+            setCurrentHashValue(value)
             navigate(`/status/${value}`)
         }
     }
@@ -136,6 +140,7 @@ function AllStatus(props) {
     const handleCloseStatus = () => {
         setCreateStatus(false);
         if (props?.statusData?.length > 0) {
+            setCurrentHashValue(props?.statusData[0]?.status[0]?._id)
             navigate(`/status/${props?.statusData[0]?.status[0]?._id}`)
         } else {
             navigate(`/`)
@@ -151,7 +156,7 @@ function AllStatus(props) {
                     <IoMdArrowRoundBack onClick={() => navigate("/")} />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
-                    <button onClick={() => { navigate('/status/createStatus'); setCreateStatus(true)}} >
+                            <button onClick={() => { setCurrentHashValue("createStatus"); navigate('/status/createStatus'); setCreateStatus(true)}} >
                         <div style={{ color: "white", fontSize: "30px", display: "flex", alignItems: "center", border: "2px solid black", borderRadius: "50%", justifyContent: "center", width: "50px", height: "50px", backgroundColor: "black", cursor: "pointer" }}>
                             <IoIosAddCircleOutline />
                         </div>
