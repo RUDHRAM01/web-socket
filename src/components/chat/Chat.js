@@ -23,6 +23,7 @@ import '../styles.css';
 import { setNoChats } from '../../reducer/Slice';
 import { updateLatestMessage } from '../../reducer/Slice';
 import { Encryption } from '../Encryption';
+import SideBar from './SideBar';
 
 
 const ENDPOINT = process.env.REACT_APP_SOCKET;
@@ -105,7 +106,7 @@ const Chat = () => {
       setLabel('sending...');
       setMessage('');
       dispatch(
-        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv, createdAt : formattedDate } })
+        addNewMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv, createdAt: formattedDate } })
       );
       dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv } }));
       const res = await sendMessageApi({ message: encrypted?.encryptedText, chatId: id, iv: encrypted?.iv });
@@ -128,7 +129,7 @@ const Chat = () => {
       dispatch(
         addNewMessage({
           _id: newMessageReceived.chat,
-          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv,createdAt : formattedDate },
+          message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv, createdAt: formattedDate },
         })
       );
       dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
@@ -191,21 +192,27 @@ const Chat = () => {
 
   return (
     <div>
-      <div className="chatMain">
-
-        <Hidden mdDown>
-          <AllChat chatData={allChats} />
+      <div className='chatParentComp'>
+      <Hidden mdDown>
+        <div >
+          <SideBar />
+          </div>
         </Hidden>
-        <ChatArea
-          allMessages={currentUsersMessages}
-          message={message}
-          sendMessage={encryption}
-          setMessage={setMessage}
-          label={label}
-          isTyping={isTyping}
-          userIsTyping={userIsTyping}
-          receiveUserTyping={receiveUserTyping}
-        />
+        <div className="chatMain">
+          <Hidden mdDown>
+            <AllChat chatData={allChats} />
+          </Hidden>
+          <ChatArea
+            allMessages={currentUsersMessages}
+            message={message}
+            sendMessage={encryption}
+            setMessage={setMessage}
+            label={label}
+            isTyping={isTyping}
+            userIsTyping={userIsTyping}
+            receiveUserTyping={receiveUserTyping}
+          />
+        </div>
       </div>
     </div>
   );
