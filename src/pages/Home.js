@@ -36,6 +36,7 @@ function Home() {
             <Route path="/chat/:id" element={<Chat />} />
             <Route path="/status/:id" element={<Status />} />
             <Route path="/*" element={<PageNotFound />} />
+            <Route path="/404" element={<PageNotFound />} />
           </> : <>
             <Route path='/login' element={<Login />} />
             <Route path='/create-account' element={<CreateAccount />} />
