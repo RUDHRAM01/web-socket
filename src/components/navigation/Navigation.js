@@ -30,7 +30,7 @@ function Navigation({ handleOpen }) {
                 cursor: "pointer",
                 background: "linear-gradient(to right, #d4a3ff, #a3d4ff)"
               }}
-              onClick={() => navigate(`/status/${0}`)}
+              onClick={() => navigate(`/status/createStatus`)}
             />
             <Avatar style={{ cursor: "pointer", border: "2px solid white" }} src={data?.profilePic} alt='user' onClick={handleOpen} />
           </div>
