@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Hidden } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -27,7 +27,7 @@ import SideBar from './SideBar';
 // socket
 import io from 'socket.io-client';
 const ENDPOINT = process.env.REACT_APP_SOCKET;
-
+let socket = io(ENDPOINT);
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
 
@@ -35,7 +35,6 @@ let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString
 
 const Chat = () => {
   const { id } = useParams();
-  const socket = useRef(io(ENDPOINT));
   const dispatch = useDispatch();
   const [socketIsConnected, setSocketIsConnected] = useState(false); 
   const allChats = useSelector((state) => state.chatStore.allChats);
@@ -52,11 +51,11 @@ const Chat = () => {
 
   useEffect(() => {
     if (socketIsConnected === true) return;
-    socket.current.emit("add", data?.id);
-    socket.current.on("connected", () => {
+    socket.emit("add", data?.id);
+    socket.on("connected", () => {
       setSocketIsConnected(true);
     }); 
-  }, [data?.id, dispatch, socketIsConnected, socket]);
+  }, [data?.id, dispatch, socketIsConnected]);
 
   
 
@@ -93,7 +92,7 @@ const Chat = () => {
       }
     };
     createChatFun();
-  }, [id, chatWithUser?._id, dispatch, chatData.length, data.id, socket, socketIsConnected]);
+  }, [id, chatWithUser?._id, dispatch, chatData.length, data.id, socketIsConnected]);
 
 
   const sendMessage = async encrypted => {
@@ -103,7 +102,7 @@ const Chat = () => {
     if (encrypted?.iv === undefined) return;
 
     try {
-      socket.current?.emit('stop typing', { room: id, to: chatWithUser?._id });
+      socket.emit('stop typing', { room: id, to: chatWithUser?._id });
       setLabel('sending...');
       setMessage('');
       dispatch(
@@ -111,7 +110,7 @@ const Chat = () => {
       );
       dispatch(updateLatestMessage({ _id: id, message: { sender: { _id: data?.id }, content: encrypted?.encryptedText, iv: encrypted?.iv } }));
       const res = await sendMessageApi({ message: encrypted?.encryptedText, chatId: id, iv: encrypted?.iv });
-      socket.current?.emit('new message', res?.data?.newMessage);
+      socket.emit('new message', res?.data?.newMessage);
       setLabel('send a message...');
 
     } catch (error) {
@@ -139,16 +138,16 @@ const Chat = () => {
       }
     };
 
-    socket.current?.on('message received', handleNewMessage);
-  }, [dispatch, id, socket]);
+    socket.on('message received', handleNewMessage);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (socketIsConnected === false) return;
-    socket.current?.on('typing', (room) => {
+    socket.on('typing', (room) => {
       setReceiveUserTyping(room);
       setUserIsTyping(true);
     });
-    socket.current?.on('stopTy', () => {
+    socket.on('stopTy', () => {
       setUserIsTyping(false);
     });
   });
@@ -157,7 +156,7 @@ const Chat = () => {
     if (socketIsConnected === false) return;
     if (!typing) {
       setTyping(true);
-      socket.current?.emit('typing', { room: id, to: chatWithUser?._id });
+      socket.emit('typing', { room: id, to: chatWithUser?._id });
     }
     const lastTypingTime = new Date().getTime();
     const timerLength = 3000;
@@ -165,7 +164,7 @@ const Chat = () => {
       const timeNow = new Date().getTime();
       const timeDiff = timeNow - lastTypingTime;
       if (timeDiff >= timerLength) {
-        socket.current?.emit('stopTy', { room: id, to: chatWithUser?._id });
+        socket.emit('stopTy', { room: id, to: chatWithUser?._id });
         setTyping(false);
       }
     }, timerLength);
