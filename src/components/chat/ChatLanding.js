@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AllChat from './allChatComponent/AllChat'
 import NoChat from './chatAreaComponent/Nochat'
 import { Hidden } from '@mui/material'
@@ -10,47 +10,46 @@ import toast from 'react-hot-toast'
 import SideBar from './SideBar'
 import { setALLUsers } from '../../reducer/userSlice'
 import { GetAllUsersApi } from '../../api/get/getAllUsers'
+import { addNewMessage, updateLatestMessage } from '../../reducer/Slice'
 
+// socket
 import io from 'socket.io-client';
-
 const ENDPOINT = process.env.REACT_APP_SOCKET;
-let socket;
-socket = io(ENDPOINT);
+
+let currentDate = new Date();
+let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
 
 function ChatLanding() {
+    const socket = useRef(io(ENDPOINT));
     const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
     const allChats = useSelector((state) => state.chatStore.allChats);
     const data = JSON.parse(localStorage.getItem('loginInfo'));
-    // const onlineUsers = useSelector((state) => state.userStore.onlineUsers);
-
-    // useEffect(() => {
-    //     socket.emit("public room", data?.id);
-    // }, [data?.id]);
-    
-  
-    
+    const [socketConnected, setSocketConnected] = useState(false);
+    // connecting the user to socket
     useEffect(() => {
-        const handleBeforeUnload = (event) => {
-            socket.emit("offline", data?.id);
-         };
-        window.addEventListener('unload', handleBeforeUnload);
-    }, [data?.id]);
+        if (socketConnected === true) return;
+        socket.current.emit("add", data?.id);
+        socket.current.on("connected", () => {
+            setSocketConnected(true);
+        });
+        const handleNewMessage = async (newMessageReceived) => {
+            dispatch(
+              addNewMessage({
+                _id: newMessageReceived.chat,
+                message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv, createdAt: formattedDate },
+              })
+            );
+            dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
+            if (window.navigator.vibrate) {
+              window.navigator.vibrate(30, 20, 20)
+            }
+          };
+      
+        socket.current?.on('message received', handleNewMessage);
+        
 
-
-    // useEffect(() => {
-    //     socket.on("connectedToPublic", (id) => {
-    //         const newOnlineUsers = { ...onlineUsers, [id]: id };
-    //         dispatch(setOnlineUsers(newOnlineUsers));
-    //     })
-
-    //     socket.on("disconnectedToPublic", (id) => {
-    //         const newOnlineUsers = { ...onlineUsers };
-    //         delete newOnlineUsers[id];
-    //         dispatch(setOnlineUsers(newOnlineUsers));
-    //     })
-    // }, [onlineUsers, dispatch])
-
+    },[data?.id,dispatch,socketConnected])
 
     useEffect(() => {
         if (allChats.length > 0) return;
@@ -81,8 +80,6 @@ function ChatLanding() {
     useEffect(() => {
         setChat(allChats)
     }, [allChats])
-
-
 
 
     useEffect(() => {
