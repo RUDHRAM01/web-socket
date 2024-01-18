@@ -8,7 +8,7 @@ import Profile from '../../navigation/Profile'
 function AllChat({ chatData }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
- 
+
 
   return (
     <div style={{ padding: "8px" }} className='AllChat'>
