@@ -5,7 +5,7 @@ const UiStore = createSlice({
     initialState: {
         open: false,
         loading: false,
-        statusId : ""
+        statusId: "",
     },
     reducers: {
         setOpen(state, action) {
@@ -14,6 +14,7 @@ const UiStore = createSlice({
         setLoading(state, action) {
             state.loading = action.payload;
         },
+
     },
 });
 
