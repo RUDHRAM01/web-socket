@@ -22,6 +22,9 @@ import '../styles.css';
 import { setNoChats } from '../../reducer/Slice';
 import { updateLatestMessage } from '../../reducer/Slice';
 import { Encryption } from '../Encryption';
+import { getAllNotification } from '../../api/get/getAllNotification';
+import { setNotifications } from '../../reducer/NotificationSlice';
+import { seenNotification } from "./SeenNotification"
 import SideBar from './SideBar';
 
 // socket
@@ -36,7 +39,7 @@ let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString
 const Chat = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [socketIsConnected, setSocketIsConnected] = useState(false); 
+  const [socketIsConnected, setSocketIsConnected] = useState(false);
   const allChats = useSelector((state) => state.chatStore.allChats);
   const allMessages = useSelector((state) => state.chatStore.allMessages);
   const [receiveUserTyping, setReceiveUserTyping] = useState("");
@@ -49,19 +52,35 @@ const Chat = () => {
   const loginUser = JSON.parse(localStorage.getItem('loginInfo'));
   const data = JSON.parse(localStorage.getItem('loginInfo'));
 
+  const chatWithUser = allChats?.find(
+    (chat) => chat?._id === id
+  )?.users?.find((user) => user?._id !== loginUser?.id);
+
+
   useEffect(() => {
     if (socketIsConnected === true) return;
     socket.emit("add", data?.id);
     socket.on("connected", () => {
       setSocketIsConnected(true);
-    }); 
+    });
   }, [data?.id, dispatch, socketIsConnected]);
 
-  
+  useEffect(() => {
+    socket?.emit("updateCurrent", {
+      chatId: id,
+      userId: data?.id,
+    });
+    const calling = async () => {
+      try {
+        await seenNotification({ for: data?.id, from: chatWithUser?._id })
+      } catch (Err) {
+        console.log(Err);
+      }
+    }
+    calling();
+  }, [data?.id, id, dispatch, chatWithUser?._id]);
 
-  const chatWithUser = allChats?.find(
-    (chat) => chat?._id === id
-  )?.users?.find((user) => user?._id !== loginUser?.id);
+
 
 
   useEffect(() => {
@@ -75,7 +94,7 @@ const Chat = () => {
   }, [allMessages, id, dispatch]);
 
 
-  useEffect(() => {  
+  useEffect(() => {
     const createChatFun = async () => {
       if (id === 'login') return;
       if (chatWithUser?._id === undefined) return;
@@ -102,6 +121,7 @@ const Chat = () => {
     if (encrypted?.iv === undefined) return;
 
     try {
+      socket.emit('receive notification', { to: chatWithUser?._id, from: data?.id, chat: id })
       socket.emit('stop typing', { room: id, to: chatWithUser?._id });
       setLabel('sending...');
       setMessage('');
@@ -140,6 +160,27 @@ const Chat = () => {
 
     socket.on('message received', handleNewMessage);
   }, [dispatch, id]);
+
+
+  // getting the notifications
+  useEffect(() => {
+    const handleNotification = async () => {
+
+      socket?.on("notification received", async () => {
+        try {
+          const { data } = await getAllNotification();
+          return dispatch(setNotifications(data));
+        } catch (err) {
+          return toast.error(err?.response?.data?.msg);
+        }
+      });
+
+      const { data } = await getAllNotification();
+      dispatch(setNotifications(data));
+    }
+    handleNotification();
+  }, [dispatch])
+
 
   useEffect(() => {
     if (socketIsConnected === false) return;
@@ -187,7 +228,7 @@ const Chat = () => {
     calling();
   }, [dispatch, allChats.length]);
 
-  
+
 
   return (
     <div>
