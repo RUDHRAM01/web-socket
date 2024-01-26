@@ -154,7 +154,7 @@ const Chat = () => {
       );
       dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
       if (window.navigator.vibrate) {
-        window.navigator.vibrate(30, 20, 20)
+        window.navigator.vibrate([30, 20, 20])
       }
     };
 
@@ -170,7 +170,7 @@ const Chat = () => {
         try {
           const { data } = await getAllNotification();
           if (window.navigator.vibrate) {
-            window.navigator.vibrate(30, 20, 20)
+            window.navigator.vibrate([30, 20, 20])
           }
           return dispatch(setNotifications(data));
         } catch (err) {
