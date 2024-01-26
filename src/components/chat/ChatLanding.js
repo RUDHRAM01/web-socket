@@ -41,22 +41,22 @@ function ChatLanding() {
         });
         const handleNewMessage = async (newMessageReceived) => {
             dispatch(
-              addNewMessage({
-                _id: newMessageReceived.chat,
-                message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv, createdAt: formattedDate },
-              })
+                addNewMessage({
+                    _id: newMessageReceived.chat,
+                    message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv, createdAt: formattedDate },
+                })
             );
             dispatch(updateLatestMessage({ _id: newMessageReceived.chat, message: { sender: { _id: newMessageReceived?.sender }, content: newMessageReceived?.content, iv: newMessageReceived?.iv } }));
             if (window.navigator.vibrate) {
-              window.navigator.vibrate(30, 20, 20)
+                window.navigator.vibrate(30, 20, 20)
             }
-          };
-      
+        };
+
         socket?.on('message received', handleNewMessage);
-        
+
 
     }, [data?.id, dispatch, socketConnected])
-    
+
     // getting the notifications
     useEffect(() => {
         const handleNotification = async () => {
@@ -64,6 +64,9 @@ function ChatLanding() {
             socket?.on("notification received", async () => {
                 try {
                     const { data } = await getAllNotification();
+                    if (window.navigator.vibrate) {
+                        window.navigator.vibrate(30, 20, 20)
+                    }
                     return dispatch(setNotifications(data));
                 } catch (err) {
                     return toast.error(err?.response?.data?.msg);

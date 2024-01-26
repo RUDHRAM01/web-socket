@@ -170,7 +170,7 @@ const Chat = () => {
         try {
           const { data } = await getAllNotification();
           if (window.navigator.vibrate) {
-            window.navigator.vibrate(30, 30, 30)
+            window.navigator.vibrate(30, 20, 20)
           }
           return dispatch(setNotifications(data));
         } catch (err) {
