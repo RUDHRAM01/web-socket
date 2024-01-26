@@ -169,6 +169,9 @@ const Chat = () => {
       socket?.on("notification received", async () => {
         try {
           const { data } = await getAllNotification();
+          if (window.navigator.vibrate) {
+            window.navigator.vibrate(30, 30, 30)
+          }
           return dispatch(setNotifications(data));
         } catch (err) {
           return toast.error(err?.response?.data?.msg);
