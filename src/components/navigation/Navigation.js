@@ -2,18 +2,32 @@ import React from 'react'
 import { Avatar } from '@mui/material'
 import { AiOutlineSearch } from "react-icons/ai"
 import { setOpen } from '../../reducer/UiSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Logo from '../../assests/logo.png'
+import { IoNotificationsCircleSharp } from "react-icons/io5";
 // import Status from "../../assests/status.jpg"
 import { FaCircleDot } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom'
+import NotificationMenu from './NotificationMenu'
+
 
 
 function Navigation({ handleOpen }) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const notifications = useSelector((state) => state.notificationStore.notifications);
   var data = localStorage.getItem('loginInfo');
   data = JSON.parse(data);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const openMenu = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
 
   return (
     <>
@@ -21,6 +35,17 @@ function Navigation({ handleOpen }) {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <img src={Logo} alt="logo" style={{ width: "100px" }} />
           <div style={{ display: "flex", gap: "8px", alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+            <button className='notificationIcon' data-value={notifications?.length} onClick={handleClick}>
+              <IoNotificationsCircleSharp
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  backgroundColor: "white",
+                  borderRadius: "50%",
+                }}
+              />
+            </button>
+            <NotificationMenu anchorEl={anchorEl} openMenu={openMenu} handleClose={handleClose} notifications={notifications} />
             <FaCircleDot
               style={{
                 fontSize: "30px",
