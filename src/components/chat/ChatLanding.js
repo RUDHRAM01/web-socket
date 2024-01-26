@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AllChat from './allChatComponent/AllChat'
 import NoChat from './chatAreaComponent/Nochat'
 import { Hidden } from '@mui/material'
@@ -10,7 +10,9 @@ import toast from 'react-hot-toast'
 import SideBar from './SideBar'
 import { setALLUsers } from '../../reducer/userSlice'
 import { GetAllUsersApi } from '../../api/get/getAllUsers'
+import { getAllNotification } from '../../api/get/getAllNotification'
 import { addNewMessage, updateLatestMessage } from '../../reducer/Slice'
+import { setNotifications } from '../../reducer/NotificationSlice'
 
 // socket
 import io from 'socket.io-client';
@@ -18,9 +20,9 @@ const ENDPOINT = process.env.REACT_APP_SOCKET;
 
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
+const socket = io(ENDPOINT);
 
 function ChatLanding() {
-    const socket = useRef(io(ENDPOINT));
     const [chatData, setChat] = useState([]);
     const dispatch = useDispatch();
     const allChats = useSelector((state) => state.chatStore.allChats);
@@ -28,9 +30,13 @@ function ChatLanding() {
     const [socketConnected, setSocketConnected] = useState(false);
     // connecting the user to socket
     useEffect(() => {
+        socket?.emit("disconnectCurr", data?.id);
+    }, [data?.id]);
+
+    useEffect(() => {
         if (socketConnected === true) return;
-        socket.current.emit("add", data?.id);
-        socket.current.on("connected", () => {
+        socket?.emit("add", data?.id);
+        socket?.on("connected", () => {
             setSocketConnected(true);
         });
         const handleNewMessage = async (newMessageReceived) => {
@@ -46,10 +52,32 @@ function ChatLanding() {
             }
           };
       
-        socket.current?.on('message received', handleNewMessage);
+        socket?.on('message received', handleNewMessage);
         
 
-    },[data?.id,dispatch,socketConnected])
+    }, [data?.id, dispatch, socketConnected])
+    
+    // getting the notifications
+    useEffect(() => {
+        const handleNotification = async () => {
+
+            socket?.on("notification received", async () => {
+                try {
+                    const { data } = await getAllNotification();
+                    return dispatch(setNotifications(data));
+                } catch (err) {
+                    return toast.error(err?.response?.data?.msg);
+                }
+            });
+
+            const { data } = await getAllNotification();
+            dispatch(setNotifications(data));
+        }
+        handleNotification();
+    }, [dispatch])
+
+
+
 
     useEffect(() => {
         if (allChats.length > 0) return;
