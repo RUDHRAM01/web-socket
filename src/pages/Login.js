@@ -95,6 +95,11 @@ function Login() {
                     <button style={{ padding: "8px" }} onClick={() => navigate("/forgot-password")}>Forgot Password?</button>
                     <button style={{ padding: "8px" }} onClick={() => navigate("/create-account")}>Don't have an account?</button>
                 </div>
+                <div>
+                    <button className='asGuest' onClick={() => navigate("/as-guest")}>
+                        Continue as Guest
+                    </button>
+                </div>
             </Paper>
         </div>
     );
