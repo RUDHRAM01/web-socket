@@ -159,7 +159,7 @@ function Profile({ open, setOpen }) {
                                 onChange={uploadImg}
                             />
                         </div>
-                       {data.email &&  <DialogContentText id="alert-dialog-slide-description" style={{ color: "GrayText" }}>
+                       {data?.email &&  <DialogContentText id="alert-dialog-slide-description" style={{ color: "GrayText" }}>
                             Email  : {data?.email}
                         </DialogContentText>}
                     </DialogContent>

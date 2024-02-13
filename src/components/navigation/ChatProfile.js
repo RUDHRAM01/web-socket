@@ -34,7 +34,7 @@ function ChatProfile({ open, setOpen, current }) {
                             <Avatar src={current?.profilePic} alt='user' />
                             <Typography variant="h6">{current?.name}</Typography>
                         </div>
-                       {current.email &&  <DialogContentText id="alert-dialog-slide-description" style={{color:"GrayText"}}>
+                       {current?.email &&  <DialogContentText id="alert-dialog-slide-description" style={{color:"GrayText"}}>
                             Email  : {current?.email}
                         </DialogContentText>}
                     </DialogContent>
