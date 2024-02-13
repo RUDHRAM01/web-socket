@@ -306,6 +306,20 @@ html {
   transition: 0.2s ease;
 }
 
+.asGuest{
+  background: linear-gradient(to right, #d4a3ff, #a3d4ff);
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 0px 4px 0px rgba(128, 128, 128, 0.316);
+  /* write the css for the button press effect */
+  transition: background 0.3s ease;
+  margin-top: 20px;
+  font-weight: 600;
+}
+
 /* upload status */
 .input-div {
   position: relative;
