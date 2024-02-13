@@ -22,6 +22,7 @@ import { UploadImageApi } from '../../api/post/UploadImg';
 import toast from 'react-hot-toast';
 import CircularProgress from '@mui/material/CircularProgress';
 import { UpdateNameApi } from '../../api/post/EditName';
+import { LogoutApi } from '../../api/post/logout';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -37,12 +38,17 @@ function Profile({ open, setOpen }) {
     const [name, setName] = useState(data?.name);
     const navigate = useNavigate()
     const handleLogout = () => {
-        dispatch(setChatData([]));
-        dispatch(setCurrentChatUser({}));
-        dispatch(addMessage([]));
-        dispatch(setOnlineUsers({}));
-        localStorage.removeItem('loginInfo');
-        navigate('/login')
+        try {
+            LogoutApi();
+            dispatch(setChatData([]));
+            dispatch(setCurrentChatUser({}));
+            dispatch(addMessage([]));
+            dispatch(setOnlineUsers({}));
+            localStorage.removeItem('loginInfo');
+            navigate('/login')
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const uploadImg = async (e) => {
