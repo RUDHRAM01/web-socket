@@ -9,6 +9,7 @@ import PageNotFound from './PageNotFound';
 import ForgotPassword from './ForgotPassword';
 import UpdatePassword from './UpdatePassword';
 import Status from '../components/status/Status';
+import LoginAsGuest  from './LoginAsGuest';
 
 
 
@@ -18,13 +19,15 @@ function Home() {
   var data = localStorage.getItem('loginInfo');
 
   useEffect(() => { 
-    if(window.location.pathname === "/login") {
+    if (window.location.pathname === "/login") {
       navigate('/login')
-    }else if(window.location.pathname === "/create-account") {
+    } else if (window.location.pathname === "/create-account") {
       navigate('/create-account')
     } else if (window.location.pathname === "/forgot-password") {
       navigate('/forgot-password')
-    } 
+    } else if (window.location.pathname === "/as-guest") {
+      navigate('/as-guest')
+    }
   }, [data, navigate, dispatch])
 
   return (
@@ -38,7 +41,8 @@ function Home() {
             <Route path="/*" element={<PageNotFound />} />
             <Route path="/404" element={<PageNotFound />} />
           </> : <>
-            <Route path='/login' element={<Login />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/as-guest' element={<LoginAsGuest />} />
             <Route path='/create-account' element={<CreateAccount />} />
               <Route path='/forgot-password' element={<ForgotPassword />} />
               <Route path='/updatePassword/:id' element={<UpdatePassword />} />
