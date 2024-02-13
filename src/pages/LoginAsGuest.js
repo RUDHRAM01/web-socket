@@ -87,9 +87,10 @@ function LoginAsGuest() {
                     </button>
                 </form>
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }} className='loginBottom'>
-                    <button style={{ padding: "8px" }} onClick={() => navigate("/forgot-password")}>Forgot Password?</button>
+                <button style={{ padding: "8px" }} onClick={() => navigate("/login")}>Already have an account?</button>
                     <button style={{ padding: "8px" }} onClick={() => navigate("/create-account")}>Don't have an account?</button>
                 </div>
+
                 <div>
                 </div>
             </Paper>
