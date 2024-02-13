@@ -159,9 +159,9 @@ function Profile({ open, setOpen }) {
                                 onChange={uploadImg}
                             />
                         </div>
-                        <DialogContentText id="alert-dialog-slide-description" style={{ color: "GrayText" }}>
+                       {data.email &&  <DialogContentText id="alert-dialog-slide-description" style={{ color: "GrayText" }}>
                             Email  : {data?.email}
-                        </DialogContentText>
+                        </DialogContentText>}
                     </DialogContent>
                     <div style={{ display: "flex", justifyContent: "center", gap: "8px", padding: "8px", alignItems: "center" }}>
                         <button style={{ display: "flex", alignItems: "center", gap: "8px" }} onClick={() => handleLogout()}>

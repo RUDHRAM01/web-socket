@@ -101,7 +101,10 @@ function ChatArea(props) {
             <Avatar src={currentChatUser?.profilePic} alt='name' />
           }
 
-          <Typography variant="body1" >{currentChatUser?.name}</Typography>
+          <div style={{display:"flex",gap:"2px",flexDirection:"column"}}>
+            <Typography variant="body1" >{currentChatUser?.name}</Typography>
+           {!currentChatUser?.email &&  <Typography variant="caption" style={{ color: "yellow",backgroundColor:"red",textAlign:"center",borderRadius:"6px 6px 6px 6px",padding:"0px 4px" }}>Guest</Typography>}
+         </div>
         </div>
         <div style={{ flexGrow: "1" }}></div>
         <button onClick={() => handleCopyToClipboard()}>
