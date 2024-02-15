@@ -44,9 +44,15 @@ const chatStore = createSlice({
             state.allChats.splice(chatIndex, 1)
             state.allChats.unshift(store)
         },
+
+        resetSlice: (state, action) => {
+            state.allChats = [];
+            state.allMessages = [];
+            state.NoChats = false;
+        },
     },
 });
 
-export const { setIsCreateGroup, setChatData, addMessage, addNewMessage, setNoChats, updateLatestMessage } = chatStore.actions;
+export const { setIsCreateGroup, setChatData, addMessage, addNewMessage, setNoChats, updateLatestMessage, resetSlice } = chatStore.actions;
 
 export default chatStore.reducer;
