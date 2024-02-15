@@ -9,10 +9,13 @@ const statusStore = createSlice({
         setAllStatus: (state, action) => {
             state.allStatus = action.payload;
         },
+        resetStatus: (state, action) => {
+            state.allStatus = [];
+        }
     },
 });
 
 
-export const { setAllStatus } = statusStore.actions;
+export const { setAllStatus,resetStatus } = statusStore.actions;
 
 export default statusStore.reducer;
