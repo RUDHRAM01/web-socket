@@ -13,9 +13,6 @@ import Typography from '@mui/material/Typography'
 import { MdOutlineEdit } from "react-icons/md";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useNavigate } from 'react-router-dom';
-import { setChatData } from '../../reducer/Slice';
-import { setCurrentChatUser, setOnlineUsers } from '../../reducer/userSlice';
-import { addMessage } from '../../reducer/Slice';
 import { useDispatch } from 'react-redux';
 import { Button, ButtonBase } from '@mui/material';
 import { UploadImageApi } from '../../api/post/UploadImg';
@@ -23,6 +20,11 @@ import toast from 'react-hot-toast';
 import CircularProgress from '@mui/material/CircularProgress';
 import { UpdateNameApi } from '../../api/post/EditName';
 import { LogoutApi } from '../../api/post/logout';
+import { resetNotifications } from '../../reducer/NotificationSlice';
+import { resetStatus } from '../../reducer/StatusSlice';
+import { restUser } from '../../reducer/userSlice';
+import { resetSlice } from '../../reducer/Slice';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -40,10 +42,10 @@ function Profile({ open, setOpen }) {
     const handleLogout = () => {
         try {
             LogoutApi();
-            dispatch(setChatData([]));
-            dispatch(setCurrentChatUser({}));
-            dispatch(addMessage([]));
-            dispatch(setOnlineUsers({}));
+            dispatch(resetNotifications());
+            dispatch(resetStatus());
+            dispatch(restUser());
+            dispatch(resetSlice());
             localStorage.removeItem('loginInfo');
             navigate('/login')
         } catch (err) {
