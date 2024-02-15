@@ -28,7 +28,7 @@ const SingleContainer = ({ props }) => {
         <Avatar src={props?.profilePic} alt='img' />
         <div>
           <Typography variant="body1" style={{color:"#3498db"}} >
-            {props?.name}
+            {props?.username ? `@${props?.username}` : props?.name}
           </Typography>
           <Typography variant="body2" style={{ color: "" }}>
             {props?.latestMessage?.content}
