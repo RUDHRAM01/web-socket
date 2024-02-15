@@ -44,7 +44,10 @@ function SideBar() {
         <div style={{ display: "flex", backgroundColor: "white", borderRadius: "8px", flexDirection: "column", alignItems: "center" }} className='sideBarMain'>
             <div style={{ display: "flex", alignItems: "center", padding: "8px", flexDirection: "column-reverse", justifyContent: "center", backgroundColor: "black", color: "white", margin: "4px", borderRadius: "8px 8px 0px 0px" }}>
                 <Avatar src={loginUser?.profilePic} style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
-                <p style={{ fontSize: "18px", fontWeight: "600" }}>You</p>
+                <p style={{ fontSize: "18px", fontWeight: "600",overflowX: "scroll", whiteSpace: "nowrap", width: "100%", maxWidth:"40px"  }} className='sideBarUsername'>
+                    {loginUser?.username && `@${loginUser?.username}`}
+                    {!loginUser?.username && `You`}
+                </p>
             </div>
             <div className='baseSideBard'>
                 {allUsers?.map((data) => (

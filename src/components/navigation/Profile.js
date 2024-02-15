@@ -121,7 +121,7 @@ function Profile({ open, setOpen }) {
                                 color: 'white',
                             }}
                         /> : `Update`
-                        }</Button></div></> : <MdOutlineEdit style={{ cursor: "pointer" }} onClick={() => setIsEditMode(true)} />
+                        }</Button></div></> : <MdOutlineEdit style={{ cursor: "pointer",marginLeft:"60px" }} onClick={() => setIsEditMode(true)} />
                     }</DialogTitle>
                     <DialogContent>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "GrayText", marginBottom: "4px" }}>
@@ -163,6 +163,9 @@ function Profile({ open, setOpen }) {
                         </div>
                        {data?.email &&  <DialogContentText id="alert-dialog-slide-description" style={{ color: "GrayText" }}>
                             Email  : {data?.email}
+                        </DialogContentText>}
+                        {data?.username &&  <DialogContentText id="alert-dialog-slide-description" style={{ color: "#0a66c2",fontWeight:"600"}}>
+                            @{data?.username}
                         </DialogContentText>}
                     </DialogContent>
                     <div style={{ display: "flex", justifyContent: "center", gap: "8px", padding: "8px", alignItems: "center" }}>
