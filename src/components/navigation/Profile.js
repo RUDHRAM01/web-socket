@@ -61,7 +61,6 @@ function Profile({ open, setOpen }) {
         try {
             const res = await UploadImageApi(form);
             setUserImg(res?.data?.profilePic);
-            console.log(res)
             var data = localStorage.getItem('loginInfo');
             data = JSON.parse(data);
             const info = {

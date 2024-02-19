@@ -16,7 +16,6 @@ function LoginAsGuest() {
     var data = localStorage.getItem('loginInfo');
     data = JSON.parse(data);
     useEffect(() => {
-        console.log(data);
         if (data) {
             navigate("/");
         }

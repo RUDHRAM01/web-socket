@@ -55,7 +55,21 @@ const Chat = () => {
   const chatWithUser = allChats?.find(
     (chat) => chat?._id === id
   )?.users?.find((user) => user?._id !== loginUser?.id);
-
+  
+  if (chatWithUser === undefined) {
+    const calling = async () => {
+      const { data } = await getAllChats();
+      setChat(data);
+      dispatch(setChatData(data));
+      data.forEach((element) => {
+        const { _id } = element;
+        Promise.resolve(getMessageApi(_id)).then((res) => {
+          dispatch(addMessage({ messages: res?.data?.messages, _id }));
+        });
+      });
+    };
+    calling();
+  }
 
   useEffect(() => {
     if (socketIsConnected === true) return;
