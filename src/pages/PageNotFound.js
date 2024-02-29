@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NotFound from "../assests/notFound.png"
 import { useNavigate } from 'react-router-dom'
+import { CircularProgress } from '@mui/material';
 
 
 function PageNotFound() {
     const navigate = useNavigate();
     var data = localStorage.getItem('loginInfo');
+    const [redirect, setRedirect] = useState(false);
     data = JSON.parse(data);
     const handlePageChange = () => {
         if (data) {
@@ -18,6 +20,11 @@ function PageNotFound() {
     useEffect(() => {
         if (data) {
             navigate("/");
+        }else{
+            setRedirect(true);
+            setTimeout(() => {
+                navigate("/login")
+            }, 2000);
         }
     }, [data, navigate])
   return (
@@ -34,10 +41,11 @@ function PageNotFound() {
                     color: "black",
                     fontSize: "16px",
                     fontWeight: "bold",
-                    marginLeft: "8px"
+                    marginLeft: "8px",
+                    marginTop:"8px"
                 }}
           >
-              Home
+              {redirect ? "redirecting to login" : "Home Page"} {redirect &&  <CircularProgress size={20} style={{marginLeft:"8px"}} />}
           </button>
     </div>
   )
