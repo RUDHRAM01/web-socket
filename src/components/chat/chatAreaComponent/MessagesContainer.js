@@ -44,7 +44,7 @@ function MessagesContainer({ item, i, currentUser }) {
       )}
 
       <div style={{ display: "flex", justifyContent: `${direction}` }}>
-        <div className={className} style={{ padding: "8px", margin: "4px", maxWidth: "50%" }}>
+        <div className={className} style={{ padding: "8px", margin: "4px", maxWidth: "50%", wordWrap:'break-word' }}>
           <p>{message}</p>
         </div>
       </div>
