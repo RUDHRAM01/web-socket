@@ -20,12 +20,8 @@ const ENDPOINT = process.env.REACT_APP_SOCKET;
 
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
-let socket;
-const loginUser = JSON.parse(localStorage.getItem('loginInfo'));
-console.log(loginUser)
-if(loginUser?.token){
-  socket = io(ENDPOINT);
-}
+let socket = io(ENDPOINT);
+
 
 function ChatLanding() {
     const [chatData, setChat] = useState([]);
