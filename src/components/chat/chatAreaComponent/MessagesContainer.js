@@ -70,17 +70,17 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
             onMouseLeave={() => setShowSuggestions(false)}
           >
             {/* Here you can have your emoji suggestions */}
-            <button onClick={() => setSelectedMessageEmoji("❤️")}>
+            <button onClick={() => {setSelectedMessageEmoji("❤️");setShowSuggestions(false)}}>
               <span role="img" aria-label="Heart">
                 ❤️
               </span>
             </button>
-            <button onClick={() => setSelectedMessageEmoji("😂")}>
+            <button onClick={() => {setSelectedMessageEmoji("😂");setShowSuggestions(false)}}>
               <span role="img" aria-label="Laugh">
                 😂
               </span>
             </button>
-            <button onClick={() => setSelectedMessageEmoji("👍")}>
+            <button onClick={() => {setSelectedMessageEmoji("👍");setShowSuggestions(false)}}>
               <span role="img" aria-label="Thumbs Up">
                 👍
               </span>
@@ -106,7 +106,7 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
             <p>{message}</p>
             {selectedMessageEmoji && (
               <button
-                onClick={() => setSelectedMessageEmoji(null)}
+                onClick={() => {setSelectedMessageEmoji(null);setShowSuggestions(false)}}
                 onMouseLeave={() => setShowSuggestions(false)} 
               >
                 <div
