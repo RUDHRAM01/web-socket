@@ -1,5 +1,6 @@
 import React from 'react';
 import { Decryption } from '../../Decryption';
+import { Avatar } from '@mui/material';
 
 let dateStatus = null
 let today = new Date();
@@ -8,14 +9,18 @@ let month = String(today.getMonth() + 1).padStart(2, '0');
 let day = String(today.getDate()).padStart(2, '0');
 
 let formattedDate = `${day}/${month}/${year}`;
+const loginInfo = JSON.parse(localStorage.getItem('loginInfo'));
 
 
 
-function MessagesContainer({ item, i, currentUser }) {
+function MessagesContainer({ item, i, currentUser,chatwith }) {
   let direction = currentUser === item?.sender?._id ? "flex-end" : "flex-start";
   let className = currentUser === item?.sender?._id ? "end" : "start";
-  const message = Decryption(item?.content, item?.iv);
 
+  const img = item?.sender?._id  === loginInfo?.id ? true : false;
+
+  const message = Decryption(item?.content, item?.iv);
+  
   // Parse the date string and format it as dd mm yyyy
   let messageDate = new Date(item.createdAt).toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -44,9 +49,11 @@ function MessagesContainer({ item, i, currentUser }) {
       )}
 
       <div style={{ display: "flex", justifyContent: `${direction}` }}>
+      {!img && <Avatar src={chatwith?.profilePic} style={{ margin: "4px" }} />}
         <div className={className} style={{ padding: "8px", margin: "4px", maxWidth: "50%", wordWrap:'break-word' }}>
-          <p>{message}</p>
+           <p>{message}</p>
         </div>
+        {img && <Avatar src={loginInfo?.profilePic} style={{ margin: "4px" }} />}
       </div>
     </>
   );

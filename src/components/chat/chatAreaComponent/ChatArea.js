@@ -124,7 +124,7 @@ function ChatArea(props) {
       <hr />
       <div style={{ overflowY: "scroll" }} className='chatAreaTwo' ref={chatContainerRef}>
         {props?.allMessages?.map((item, i) => (
-          <MessagesContainer item={item} key={i} currentUser={data?.id} />
+          <MessagesContainer item={item} key={i} chatwith={currentChatUser} currentUser={data?.id} />
         ))}
         {props?.userIsTyping && id === props?.receiveUserTyping && (
           <div style={{ display: "flex", justifyContent: `flex-start` }}>
