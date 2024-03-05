@@ -30,7 +30,11 @@ import SideBar from './SideBar';
 // socket
 import io from 'socket.io-client';
 const ENDPOINT = process.env.REACT_APP_SOCKET;
-let socket = io(ENDPOINT);
+let socket;
+const loginUser = JSON.parse(localStorage.getItem('loginInfo'));
+if(loginUser?.token){
+  socket = io(ENDPOINT);
+}
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
 
