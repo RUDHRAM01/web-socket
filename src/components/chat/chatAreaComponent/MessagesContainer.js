@@ -56,8 +56,8 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
             style={{
               position: "absolute",
               top: "-30px", // Adjust as needed
-              left: className === "start" ? "0" : "auto",
-              right: className === "end" ? "0" : "auto",
+              left: className === "start" && "0",
+              right: className === "end" && "0" ,
               background: "#fff",
               border: "1px solid #ccc",
               padding: "5px",
