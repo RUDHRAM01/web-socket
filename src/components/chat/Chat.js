@@ -174,6 +174,9 @@ const Chat = () => {
     };
 
     socket.on('message received', handleNewMessage);
+    return () => {
+      socket.off('message received', handleNewMessage);
+    };
   }, [dispatch, id]);
 
 
