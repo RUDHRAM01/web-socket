@@ -16,7 +16,7 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
   let direction = currentUser === item?.sender?._id ? "flex-end" : "flex-start";
   let className = currentUser === item?.sender?._id ? "end" : "start";
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const img = item?.sender?._id !== loginInfo?.id ? true : false;
+
 
   const message = Decryption(item?.content, item?.iv);
 
@@ -34,6 +34,7 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
   if (isNewDate) {
     dateStatus = messageDate;
   }
+
 
   return (
     <>
@@ -89,7 +90,7 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
           </div>
         )}
         <div style={{ display: "flex", justifyContent: `${direction}` }}>
-          {img && (
+          {direction === "flex-start" && (
             <Avatar src={chatwith?.profilePic} style={{ margin: "4px" }} />
           )}
           <div
@@ -128,7 +129,7 @@ function MessagesContainer({ item, i, currentUser, chatwith }) {
               </button>
             )}
           </div>
-          {!img && (
+          {direction === "flex-end" && (
             <Avatar src={loginInfo?.profilePic} style={{ margin: "4px" }} />
           )}
         </div>
