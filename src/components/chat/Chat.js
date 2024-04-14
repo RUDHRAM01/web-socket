@@ -30,7 +30,7 @@ import SideBar from './SideBar';
 // socket
 import io from 'socket.io-client';
 const ENDPOINT = process.env.REACT_APP_SOCKET;
-let socket = io(ENDPOINT);
+let socket;
 
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
@@ -53,6 +53,27 @@ const Chat = () => {
   const loginUser = JSON.parse(localStorage.getItem('loginInfo'));
   const data = JSON.parse(localStorage.getItem('loginInfo'));
 
+    // getting the notifications
+    useEffect(() => {
+      const handleNotification = async () => {
+        socket?.on("notification received", async () => {
+          try {
+            const { data } = await getAllNotification();
+            if (window.navigator.vibrate) {
+              window.navigator.vibrate([30, 20, 20])
+            }
+            return dispatch(setNotifications(data));
+          } catch (err) {
+            return toast.error(err?.response?.data?.msg);
+          }
+        });
+  
+        const { data } = await getAllNotification();
+        dispatch(setNotifications(data));
+      }
+      handleNotification();
+    }, [dispatch]);
+
   const chatWithUser = allChats?.find(
     (chat) => chat?._id === id
   )?.users?.find((user) => user?._id !== loginUser?.id);
@@ -74,6 +95,10 @@ const Chat = () => {
 
   useEffect(() => {
     if (socketIsConnected === true) return;
+    if(data?.id === undefined) return;
+    socket = io(ENDPOINT, { 
+      withCredentials: true,
+     });
     socket.emit("add", data?.id);
     socket.on("connected", () => {
       setSocketIsConnected(true);
@@ -81,6 +106,7 @@ const Chat = () => {
   }, [data?.id, dispatch, socketIsConnected]);
 
   useEffect(() => {
+    if(data?.id === undefined) return;
     socket?.emit("updateCurrent", {
       chatId: id,
       userId: data?.id,
@@ -178,29 +204,6 @@ const Chat = () => {
       socket.off('message received', handleNewMessage);
     };
   }, [dispatch, id]);
-
-
-  // getting the notifications
-  useEffect(() => {
-    const handleNotification = async () => {
-
-      socket?.on("notification received", async () => {
-        try {
-          const { data } = await getAllNotification();
-          if (window.navigator.vibrate) {
-            window.navigator.vibrate([30, 20, 20])
-          }
-          return dispatch(setNotifications(data));
-        } catch (err) {
-          return toast.error(err?.response?.data?.msg);
-        }
-      });
-
-      const { data } = await getAllNotification();
-      dispatch(setNotifications(data));
-    }
-    handleNotification();
-  }, [dispatch])
 
 
   useEffect(() => {

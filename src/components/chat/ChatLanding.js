@@ -20,7 +20,7 @@ const ENDPOINT = process.env.REACT_APP_SOCKET;
 
 let currentDate = new Date();
 let formattedDate = new Date(currentDate.toISOString().slice(0, -1)).toISOString();
-let socket = io(ENDPOINT);
+let socket;
 
 
 function ChatLanding() {
@@ -31,11 +31,18 @@ function ChatLanding() {
     const [socketConnected, setSocketConnected] = useState(false);
     // connecting the user to socket
     useEffect(() => {
+        if (socketConnected === false) return;
+        if(data.id === undefined) return;
         socket?.emit("disconnectCurr", data?.id);
-    }, [data?.id]);
+    }, [data?.id, socketConnected]);
 
     useEffect(() => {
         if (socketConnected === true) return;
+        if(data.id === undefined) return;
+        socket = io(ENDPOINT, 
+        {
+            withCredentials: true,
+        })    
         socket?.emit("add", data?.id);
         socket?.on("connected", () => {
             setSocketConnected(true);
