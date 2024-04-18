@@ -17,6 +17,7 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   var data = localStorage.getItem("loginInfo");
+  
   useEffect(() => {
     const connectToServer = async () => {
       const res = await axios.get("https://web-server-plg9.onrender.com/");
