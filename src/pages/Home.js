@@ -10,11 +10,23 @@ import ForgotPassword from "./ForgotPassword";
 import UpdatePassword from "./UpdatePassword";
 import Status from "../components/status/Status";
 import LoginAsGuest from "./LoginAsGuest";
+import axios from "axios";
+import { setIsConnecting } from "../reducer/UiSlice";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   var data = localStorage.getItem("loginInfo");
+  useEffect(() => {
+    const connectToServer = async () => {
+      const res = await axios.get("https://web-server-plg9.onrender.com/");
+      if (res.status === 200) {
+        dispatch(setIsConnecting(false));
+      }
+    };
+
+    connectToServer();
+  },[dispatch]);
 
   useEffect(() => {
     if (window.location.pathname === "/login") {

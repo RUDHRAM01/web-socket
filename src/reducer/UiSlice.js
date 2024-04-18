@@ -6,6 +6,7 @@ const UiStore = createSlice({
         open: false,
         loading: false,
         statusId: "",
+        isConnecting: true,
     },
     reducers: {
         setOpen(state, action) {
@@ -14,9 +15,12 @@ const UiStore = createSlice({
         setLoading(state, action) {
             state.loading = action.payload;
         },
+        setIsConnecting(state, action) {
+            state.isConnecting = action.payload;
+        }
     },
 });
 
-export const { setOpen,setLoading } = UiStore.actions;
+export const { setOpen,setLoading,setIsConnecting } = UiStore.actions;
 
 export default UiStore.reducer;
