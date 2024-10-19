@@ -31,6 +31,12 @@ function Login() {
     });
 
     React.useEffect(() => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (isIOS) {
+        console.log("This is an iOS device. Push notifications are not supported.");
+        return; // Exit early for iOS devices
+    }
         const msg = getMessaging(firebaseApp);
         Notification.requestPermission()
           .then((permission) => {
