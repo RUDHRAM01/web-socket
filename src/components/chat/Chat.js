@@ -162,7 +162,7 @@ const Chat = () => {
     if (encrypted?.iv === undefined) return;
 
     try {
-      socket.emit('receive notification', { to: chatWithUser?._id, from: data?.id, chat: id })
+      socket.emit('receive notification', { to: chatWithUser?._id, from: data?.id, chat: id, name: data.name })
       socket.emit('stop typing', { room: id, to: chatWithUser?._id });
       setLabel('sending...');
       setMessage('');

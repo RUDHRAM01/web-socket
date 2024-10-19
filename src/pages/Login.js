@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import { setData, setIsLogin } from "../reducer/userSlice"
 import { LoginApi } from '../api/post/Login';
 import { CircularProgress } from '@mui/material';
+import { getMessaging, getToken } from "firebase/messaging";
+import firebaseApp from  "../firebase";
 
 
 
@@ -25,7 +27,31 @@ function Login() {
     const [config, setConfig] = useState({
         email: "",
         password: "",
+        fcmToken: ""
     });
+
+    React.useEffect(() => {
+        const msg = getMessaging(firebaseApp);
+        Notification.requestPermission()
+          .then((permission) => {
+            if (permission === "granted") {
+              return getToken(msg);
+            } else {
+              console.error("Permission not granted for Notification");
+            }
+          })
+          .then((token) => {
+            if (token) {
+                setConfig((value) => ({
+                    ...value,
+                    fcmToken: token
+                }));
+            }
+          })
+          .catch((error) => {
+            console.error("Error getting permission or token", error);
+          });
+      }, []);
 
 
     const [loading, setLoading] = useState(false);
