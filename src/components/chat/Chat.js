@@ -27,7 +27,7 @@ import { setNotifications } from '../../reducer/NotificationSlice';
 import { seenNotification } from "./SeenNotification"
 import SideBar from './SideBar';
 
-// socket
+
 import io from 'socket.io-client';
 const ENDPOINT = process.env.REACT_APP_SOCKET;
 let socket;
